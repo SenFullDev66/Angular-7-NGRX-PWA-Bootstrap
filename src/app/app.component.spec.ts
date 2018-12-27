@@ -22,10 +22,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'epokedex'`, () => {
+  it(`should have as title 'E-PokedeX'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('epokedex');
+    expect(app.title).toEqual('E-PokedeX');
   });
 
 });
