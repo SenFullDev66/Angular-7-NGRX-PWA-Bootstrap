@@ -11,7 +11,7 @@ describe('LayoutComponent', () => {
     TestBed.configureTestingModule({
       declarations: layoutModuleDeclarations
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -39,6 +39,6 @@ describe('LayoutComponent', () => {
     const span: HTMLSpanElement = fixture.nativeElement.querySelector('span.title');
     expect(span).toBeTruthy();
     expect(span.innerText).toBe(component.title);
-  })
+  });
 
 });
