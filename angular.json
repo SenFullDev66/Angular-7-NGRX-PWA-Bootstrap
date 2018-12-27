@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "epokedex"
+  "defaultProject": "epokedex",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
