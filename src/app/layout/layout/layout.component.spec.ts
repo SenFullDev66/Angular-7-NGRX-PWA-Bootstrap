@@ -28,17 +28,48 @@ describe('LayoutComponent', () => {
     expect(component.title).toBe('E-PokedeX');
   });
 
-  it('should have a logo image', () => {
-    const logo: HTMLImageElement = fixture.nativeElement.querySelector('img.logo');
-    expect(logo).toBeTruthy();
-    expect(logo.alt).toBe('E-PokedeX logo');
-    expect(logo.src).toMatch(/\/assets\/images\/logo\.svg$/);
+  describe('header section', () => {
+    let header: HTMLHeadingElement;
+    beforeEach(() => {
+      header = fixture.nativeElement.querySelector('.header');
+    });
+
+    it('should exist', () => {
+      expect(header).toBeTruthy();
+    });
+
+    it('should have a logo image', () => {
+      const logo: HTMLImageElement = header.querySelector('img.logo');
+      expect(logo).toBeTruthy();
+      expect(logo.alt).toBe('E-PokedeX logo');
+      expect(logo.src).toMatch(/\/assets\/images\/logo\.svg(\?.+)?$/);
+    });
+
+    it('should have a span element as title', () => {
+      const span: HTMLSpanElement = header.querySelector('span.title');
+      expect(span).toBeTruthy();
+      expect(span.innerText).toBe(component.title);
+    });
+
   });
 
-  it('should have a span element as title', () => {
-    const span: HTMLSpanElement = fixture.nativeElement.querySelector('span.title');
-    expect(span).toBeTruthy();
-    expect(span.innerText).toBe(component.title);
+  describe('content section', () => {
+    let content: HTMLElement;
+    beforeEach(() => {
+      content = fixture.nativeElement.querySelector('.content');
+    });
+
+    it('should have a navbar', () => {
+      const navbar = content.querySelector('nav.navbar');
+      expect(navbar).toBeTruthy();
+    });
+
+    it('should have a title with same value of component title property', () => {
+      const titleEl = content.querySelector('nav.navbar > .navbar-brand');
+      expect(titleEl).toBeTruthy();
+      expect(titleEl.textContent).toBe(component.title);
+    });
+
   });
 
 });
