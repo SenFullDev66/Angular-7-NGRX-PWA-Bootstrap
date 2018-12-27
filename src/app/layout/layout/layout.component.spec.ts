@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutComponent } from './layout.component';
-import { layoutModuleDeclarations } from '../layout.module';
+import { layoutModuleDeclarations, layoutModuleImports } from '../layout.module';
+import { StoreModule } from '@ngrx/store';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -9,7 +10,13 @@ describe('LayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: layoutModuleDeclarations
+      declarations: [
+        ...layoutModuleDeclarations
+      ],
+      imports: [
+        StoreModule.forRoot({}),
+        ...layoutModuleImports
+      ]
     })
       .compileComponents();
   }));
@@ -24,9 +31,9 @@ describe('LayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('title should be "E-PokedeX"', () => {
-    expect(component.title).toBe('E-PokedeX');
-  });
+  // it('title should be "E-PokedeX"', () => {
+  //   expect(component.title).toBe('E-PokedeX');
+  // });
 
   describe('header section', () => {
     let header: HTMLHeadingElement;
@@ -48,7 +55,7 @@ describe('LayoutComponent', () => {
     it('should have a span element as title', () => {
       const span: HTMLSpanElement = header.querySelector('span.title');
       expect(span).toBeTruthy();
-      expect(span.innerText).toBe(component.title);
+      expect(span.textContent).toBe('E-PokedeX');
     });
 
   });
@@ -67,7 +74,7 @@ describe('LayoutComponent', () => {
     it('should have a title with same value of component title property', () => {
       const titleEl = content.querySelector('nav.navbar > .navbar-brand');
       expect(titleEl).toBeTruthy();
-      expect(titleEl.textContent).toBe(component.title);
+      expect(titleEl.textContent).toBe('E-PokedeX');
     });
 
   });

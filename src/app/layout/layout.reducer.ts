@@ -1,7 +1,4 @@
 import { LayoutActionTypes, LayoutActions } from './layout.actions';
-import { createSelector } from '@ngrx/store';
-import { layoutSelector } from '../reducers';
-
 
 export interface LayoutState {
   title: string;
@@ -20,4 +17,4 @@ export function layoutReducer(state = initialState, action: LayoutActions): Layo
   }
 }
 
-export const layoutTitleSelector = createSelector(layoutSelector, state => state.title);
+export const layoutTitleSelector = (state: LayoutState) => state.title;

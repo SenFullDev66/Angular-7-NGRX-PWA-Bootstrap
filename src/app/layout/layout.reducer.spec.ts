@@ -40,11 +40,7 @@ describe('layoutTitleSelector', () => {
 
   it('with initial state it selects "E-PokedeX"', () => {
 
-    const rootState = {
-      layout: initialState
-    };
-
-    const result = layoutTitleSelector(rootState);
+    const result = layoutTitleSelector(initialState);
 
     expect(result).toBe('E-PokedeX');
 
@@ -52,13 +48,8 @@ describe('layoutTitleSelector', () => {
 
   it('with a state with "Title B" title it selects "Title B"', () => {
     const title = 'Title B';
-    const rootState = {
-      layout: {
-        title
-      }
-    };
 
-    const result = layoutTitleSelector(rootState);
+    const result = layoutTitleSelector({ title });
 
     expect(result).toBe(title);
   });
