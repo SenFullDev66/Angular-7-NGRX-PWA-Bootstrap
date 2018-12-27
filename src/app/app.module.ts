@@ -7,12 +7,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
-
-export const appModuleReducers = {};
+import { reducers, metaReducers } from './reducers';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
 
 export const appModuleImports = [
-  StoreModule.forRoot(appModuleReducers),
-  StoreDevtoolsModule.instrument(),
+  StoreModule.forRoot(reducers, { metaReducers }),
+  !environment.production ? StoreDevtoolsModule.instrument() : [],
+  EffectsModule.forRoot([AppEffects]),
   LayoutModule,
   NgbModule
 ];
@@ -24,7 +27,7 @@ export const appModuleImports = [
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ...appModuleImports
+    ...appModuleImports,
   ],
   providers: [],
   bootstrap: [AppComponent]
