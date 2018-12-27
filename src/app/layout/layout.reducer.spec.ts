@@ -1,4 +1,4 @@
-import { reducer, initialState } from './layout.reducer';
+import { layoutReducer, initialState } from './layout.reducer';
 import { LayoutActionTypes, ChangeTitle } from './layout.actions';
 
 describe('Layout Reducer', () => {
@@ -6,7 +6,7 @@ describe('Layout Reducer', () => {
     it('should return the previous state', () => {
       const action = {} as any;
 
-      const result = reducer(initialState, action);
+      const result = layoutReducer(initialState, action);
 
       expect(result).toBe(initialState);
     });
@@ -17,7 +17,7 @@ describe('Layout Reducer', () => {
     it('with "Title A" title payload, should reduce state with "Title A" title', () => {
       const action = new ChangeTitle('Title A');
 
-      const result = reducer(initialState, action);
+      const result = layoutReducer(initialState, action);
 
       expect(result).not.toBe(initialState);
       expect(result.title).toBe('Title A');
@@ -26,7 +26,7 @@ describe('Layout Reducer', () => {
     it('with "Title B" title payload, should reduce state with "Title B" title', () => {
       const action = new ChangeTitle('Title B');
 
-      const result = reducer(initialState, action);
+      const result = layoutReducer(initialState, action);
 
       expect(result).not.toBe(initialState);
       expect(result.title).toBe('Title B');

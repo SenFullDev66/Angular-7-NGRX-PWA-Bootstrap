@@ -1,16 +1,15 @@
-import { Action } from '@ngrx/store';
 import { LayoutActionTypes, LayoutActions } from './layout.actions';
 
 
-export interface State {
+export interface LayoutState {
   title: string;
 }
 
-export const initialState: State = {
+export const initialState: LayoutState = {
   title: 'E-PokedeX'
 };
 
-export function reducer(state = initialState, action: LayoutActions): State {
+export function layoutReducer(state = initialState, action: LayoutActions): LayoutState {
   switch (action.type) {
     case LayoutActionTypes.ChangeTitle:
       return { title: action.title };

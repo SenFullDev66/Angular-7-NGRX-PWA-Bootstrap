@@ -9,7 +9,7 @@ export const layoutModuleDeclarations = [
 ];
 
 export const layoutModuleImports = [
-  StoreModule.forFeature('layout', fromLayout.reducer)
+  StoreModule.forFeature('layout', fromLayout.layoutReducer)
 ];
 
 @NgModule({
