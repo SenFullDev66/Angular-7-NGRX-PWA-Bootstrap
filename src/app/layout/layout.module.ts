@@ -2,8 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout/layout.component';
 
+export const layoutModuleDeclarations = [
+  LayoutComponent
+];
+
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: layoutModuleDeclarations,
   imports: [
     CommonModule
   ],
