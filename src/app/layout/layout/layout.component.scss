@@ -1,14 +1,17 @@
 .header {
   height: 150px;
-  display: flex;
-  align-items: center;
   background-color: var(--primary);
   color: #fff;
 
-  & > .logo {
-    margin: 0 20px;
-    height: 110px;
-    width: 110px;
+  & > .container {
+    display: flex;
+    align-items: center;
+
+    & > .logo {
+      margin-right: 10px;
+      height: 110px;
+      width: 110px;
+    }
   }
 }
 
