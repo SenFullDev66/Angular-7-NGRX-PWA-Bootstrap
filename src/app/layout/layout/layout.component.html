@@ -1,14 +1,8 @@
 <header class="header">
-  <img src="/assets/images/logo.svg" class="logo" alt="E-PokedeX logo">
-  <span class="title">E-PokedeX</span>
+  <img src="/assets/images/logo.svg" class="logo" alt="E-PokedeX logo" />
+  <h1 class="title">E-PokedeX</h1>
 </header>
-<section>
-  <article class="content">
-    <header>
-      <nav class="navbar navbar-dark bg-primary">
-        <span class="navbar-brand">{{title | async}}</span>
-      </nav>
-    </header>
-    <ng-content></ng-content>
-  </article>
-</section>
+<nav class="navbar sticky-top navbar-dark bg-primary">
+  <span class="navbar-brand">{{ title | async }}</span>
+</nav>
+<section><ng-content></ng-content></section>

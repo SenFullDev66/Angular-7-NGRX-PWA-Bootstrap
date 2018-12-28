@@ -64,26 +64,23 @@ describe('LayoutComponent', () => {
       expect(logo.src).toMatch(/\/assets\/images\/logo\.svg(\?.+)?$/);
     });
 
-    it('should have a span element as title', () => {
-      const span: HTMLSpanElement = header.querySelector('span.title');
+    it('should have a h1 element as title', () => {
+      const span: HTMLSpanElement = header.querySelector('h1.title');
       expect(span).toBeTruthy();
       expect(span.textContent).toBe('E-PokedeX');
     });
   });
 
-  describe('content section', () => {
-    let content: HTMLElement;
-    beforeEach(() => {
-      content = fixture.nativeElement.querySelector('.content');
-    });
-
-    it('should have a navbar', () => {
-      const navbar = content.querySelector('nav.navbar');
+  describe('navbar', () => {
+    it('should exist', () => {
+      const navbar = fixture.nativeElement.querySelector('nav.navbar');
       expect(navbar).toBeTruthy();
     });
 
     it('should have a title with same value of component title property', done => {
-      const titleEl = content.querySelector('nav.navbar > .navbar-brand');
+      const titleEl = fixture.nativeElement.querySelector(
+        'nav.navbar > .navbar-brand'
+      );
       expect(titleEl).toBeTruthy();
       expect(titleEl.textContent).toBeTruthy();
       component.title.subscribe(title => {
