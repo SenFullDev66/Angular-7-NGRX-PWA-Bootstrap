@@ -1,8 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutComponent } from './layout.component';
-import { layoutModuleDeclarations, layoutModuleImports } from '../layout.module';
+import {
+  layoutModuleDeclarations,
+  layoutModuleImports
+} from '../layout.module';
 import { StoreModule } from '@ngrx/store';
+import { layoutReducer } from '../layout.reducer';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -10,15 +14,14 @@ describe('LayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ...layoutModuleDeclarations
-      ],
+      declarations: [...layoutModuleDeclarations],
       imports: [
-        StoreModule.forRoot({}),
+        StoreModule.forRoot({
+          layout: layoutReducer
+        }),
         ...layoutModuleImports
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -57,7 +60,6 @@ describe('LayoutComponent', () => {
       expect(span).toBeTruthy();
       expect(span.textContent).toBe('E-PokedeX');
     });
-
   });
 
   describe('content section', () => {
@@ -76,7 +78,5 @@ describe('LayoutComponent', () => {
       expect(titleEl).toBeTruthy();
       expect(titleEl.textContent).toBe('E-PokedeX');
     });
-
   });
-
 });

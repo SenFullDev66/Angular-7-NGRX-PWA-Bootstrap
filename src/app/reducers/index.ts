@@ -1,10 +1,4 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { LayoutState, layoutReducer } from '../layout/layout.reducer';
 
@@ -16,7 +10,6 @@ export const reducers: ActionReducerMap<State> = {
   layout: layoutReducer
 };
 
-
-export const layoutSelector = createFeatureSelector<State, LayoutState>('layout');
-
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<State>[] = !environment.production
+  ? []
+  : [];

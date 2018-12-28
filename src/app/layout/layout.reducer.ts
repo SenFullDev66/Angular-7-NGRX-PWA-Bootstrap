@@ -1,3 +1,5 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import { LayoutActionTypes, LayoutActions } from './layout.actions';
 
 export interface LayoutState {
@@ -8,7 +10,10 @@ export const initialState: LayoutState = {
   title: 'E-PokedeX'
 };
 
-export function layoutReducer(state = initialState, action: LayoutActions): LayoutState {
+export function layoutReducer(
+  state = initialState,
+  action: LayoutActions
+): LayoutState {
   switch (action.type) {
     case LayoutActionTypes.ChangeTitle:
       return { title: action.title };
@@ -17,4 +22,9 @@ export function layoutReducer(state = initialState, action: LayoutActions): Layo
   }
 }
 
-export const layoutTitleSelector = (state: LayoutState) => state.title;
+export const layoutSelector = createFeatureSelector<any, LayoutState>('layout');
+
+export const layoutTitleSelector = createSelector(
+  layoutSelector,
+  state => state.title
+);
