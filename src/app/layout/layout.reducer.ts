@@ -6,6 +6,10 @@ export interface LayoutState {
   title: string;
 }
 
+export interface LayoutFeatureState {
+  layout: LayoutState;
+}
+
 export const initialState: LayoutState = {
   title: 'E-PokedeX'
 };
