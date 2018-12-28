@@ -7,6 +7,7 @@ import {
 } from '../layout.module';
 import { StoreModule } from '@ngrx/store';
 import { layoutReducer } from '../layout.reducer';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -19,6 +20,7 @@ describe('LayoutComponent', () => {
         StoreModule.forRoot({
           layout: layoutReducer
         }),
+        EffectsModule.forRoot([]),
         ...layoutModuleImports
       ]
     }).compileComponents();
