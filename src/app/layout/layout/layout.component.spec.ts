@@ -34,9 +34,18 @@ describe('LayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('title should be "E-PokedeX"', () => {
-  //   expect(component.title).toBe('E-PokedeX');
-  // });
+  it('title should be "E-PokedeX"', done => {
+    expect(component.title).toBeTruthy();
+
+    component.title.subscribe(title => {
+      try {
+        expect(title).toBe('E-PokedeX');
+        done();
+      } catch (e) {
+        done.fail(e);
+      }
+    });
+  });
 
   describe('header section', () => {
     let header: HTMLHeadingElement;
@@ -73,10 +82,18 @@ describe('LayoutComponent', () => {
       expect(navbar).toBeTruthy();
     });
 
-    it('should have a title with same value of component title property', () => {
+    it('should have a title with same value of component title property', done => {
       const titleEl = content.querySelector('nav.navbar > .navbar-brand');
       expect(titleEl).toBeTruthy();
-      expect(titleEl.textContent).toBe('E-PokedeX');
+      expect(titleEl.textContent).toBeTruthy();
+      component.title.subscribe(title => {
+        try {
+          expect(titleEl.textContent).toBe(title);
+          done();
+        } catch (e) {
+          done.fail(e);
+        }
+      });
     });
   });
 });
