@@ -4,11 +4,11 @@ import { PageComponent } from './page.component';
 import { layoutModuleImports } from '../layout.module';
 import { StoreModule } from '@ngrx/store';
 import { layoutReducer } from '../layout.reducer';
-import { EffectsModule, Actions, ofType } from '@ngrx/effects';
-import { Observable, from } from 'rxjs';
-import { Component, ViewChild, OnInit, Injectable } from '@angular/core';
-import { LayoutActionTypes } from '../layout.actions';
-import { map } from 'rxjs/operators';
+import { EffectsModule, ofType } from '@ngrx/effects';
+import { Observable, from, ReplaySubject } from 'rxjs';
+import { Component, ViewChild } from '@angular/core';
+import { LayoutEffects } from '../layout.effects';
+import { LayoutActionTypes, TitleChanged } from '../layout.actions';
 
 describe('PageComponent', () => {
   let component: PageHostComponent;
@@ -20,10 +20,10 @@ describe('PageComponent', () => {
         StoreModule.forRoot({
           layout: layoutReducer
         }),
-        EffectsModule.forRoot([TestEffect]),
+        EffectsModule.forRoot([]),
         ...layoutModuleImports
       ],
-      providers: [TestEffect],
+      providers: [],
       declarations: [PageComponent, PageHostComponent]
     }).compileComponents();
   }));
@@ -120,13 +120,20 @@ describe('PageComponent', () => {
     });
 
     describe('when it is resolved', () => {
+      let subject: ReplaySubject<TitleChanged>;
+
       beforeEach(async () => {
+        subject = new ReplaySubject(null);
+        const effects: LayoutEffects = TestBed.get(LayoutEffects);
+        effects.onTitleChange.subscribe(action => {
+          subject.next(action);
+        });
         await resolve();
         await fixture.detectChanges();
       });
 
       it('it changes document title to "E-PokedeX - Title B"', done => {
-        document.addEventListener('document.title.changed', () => {
+        subject.pipe(ofType(LayoutActionTypes.TitleChanged)).subscribe(() => {
           try {
             expect(document.title).toEqual('E-PokedeX - Title B');
             done();
@@ -185,14 +192,4 @@ class PageHostComponent {
 
   @ViewChild(PageComponent)
   wrapped: PageComponent;
-}
-
-@Injectable()
-class TestEffect {
-  constructor(private actions$: Actions) {}
-
-  onTitleChanged = this.actions$.pipe(
-    ofType(LayoutActionTypes.TitleChanged),
-    map(() => document.dispatchEvent(new Event('document.title.changed')))
-  );
 }
