@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './page.component';
 import { layoutModuleImports } from '../layout.module';
 import { StoreModule } from '@ngrx/store';
-import { layoutReducer } from '../layout.reducer';
 import { EffectsModule, ofType } from '@ngrx/effects';
 import { Observable, from, ReplaySubject } from 'rxjs';
 import { Component, ViewChild } from '@angular/core';
@@ -17,9 +16,7 @@ describe('PageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          layout: layoutReducer
-        }),
+        StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         ...layoutModuleImports
       ],

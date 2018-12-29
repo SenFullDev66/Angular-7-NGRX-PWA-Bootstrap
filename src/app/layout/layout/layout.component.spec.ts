@@ -1,12 +1,11 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LayoutComponent } from "./layout.component";
+import { LayoutComponent } from './layout.component';
 import {
   layoutModuleDeclarations,
   layoutModuleImports
-} from "../layout.module";
-import { StoreModule } from "@ngrx/store";
-import { layoutReducer } from "../layout.reducer";
+} from '../layout.module';
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 describe('LayoutComponent', () => {
@@ -17,9 +16,7 @@ describe('LayoutComponent', () => {
     TestBed.configureTestingModule({
       declarations: [...layoutModuleDeclarations],
       imports: [
-        StoreModule.forRoot({
-          layout: layoutReducer
-        }),
+        StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         ...layoutModuleImports
       ]
