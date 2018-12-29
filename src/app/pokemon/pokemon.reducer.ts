@@ -1,8 +1,10 @@
 import { Action, createFeatureSelector } from '@ngrx/store';
+import { Pokemons } from './pokemon';
+import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
 
 export interface PokemonState {
   loading: boolean;
-  pokemons: any[];
+  pokemons: Pokemons;
 }
 
 export interface PokemonFeatureState {
@@ -14,8 +16,15 @@ export const initialState: PokemonState = {
   pokemons: []
 };
 
-export function reducer(state = initialState, action: Action): PokemonState {
+export function reducer(
+  state = initialState,
+  action: PokemonActions
+): PokemonState {
   switch (action.type) {
+    case PokemonActionTypes.LoadPokemons:
+      return { ...state, loading: true };
+    case PokemonActionTypes.PokemonsLoaded:
+      return { ...state, loading: false, pokemons: action.pokemons };
     default:
       return state;
   }
