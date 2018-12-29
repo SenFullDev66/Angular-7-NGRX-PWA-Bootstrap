@@ -1,5 +1,5 @@
 .header {
-  height: 150px;
+  height: 100px;
   background-color: var(--primary);
   color: #fff;
 
@@ -7,10 +7,26 @@
     display: flex;
     align-items: center;
 
-    & > .logo {
-      margin-right: 10px;
-      height: 110px;
-      width: 110px;
+    & > .title {
+      height: 50px;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+
+      & > .solid {
+        font-family: 'PokemonSolid';
+        color: #fdc81a;
+        position: absolute;
+        left: 0;
+      }
+
+      & > .hollow {
+        font-family: 'PokemonHollow';
+        color: #4d5995;
+        position: absolute;
+        left: 0;
+        font-weight: 700;
+      }
     }
   }
 }

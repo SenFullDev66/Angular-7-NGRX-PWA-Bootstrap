@@ -39,10 +39,10 @@ describe('LayoutEffects', () => {
       });
     });
 
-    it(`the document title is changed to "E-PokedeX - ${title}"`, done => {
+    it(`the document title is changed to "E-PokédeX - ${title}"`, done => {
       effects.onTitleChange.subscribe(result => {
         try {
-          expect(document.title).toBe(`E-PokedeX - ${title}`);
+          expect(document.title).toBe(`E-PokédeX - ${title}`);
           done();
         } catch (e) {
           done.fail(e);

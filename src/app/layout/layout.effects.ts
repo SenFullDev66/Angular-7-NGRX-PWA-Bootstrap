@@ -11,7 +11,7 @@ export class LayoutEffects {
   onTitleChange = this.actions$.pipe(
     ofType(LayoutActionTypes.ChangeTitle),
     map((action: ChangeTitle) => {
-      document.title = `E-PokedeX - ${action.title}`;
+      document.title = `E-PokédeX - ${action.title}`;
       return new TitleChanged(action.title);
     })
   );

@@ -38,12 +38,12 @@ describe('Layout Reducer', () => {
 });
 
 describe('layoutTitleSelector', () => {
-  it('with initial state it selects "E-PokedeX"', () => {
+  it('with initial state it selects "E-PokédeX"', () => {
     const rootState = { layout: initialState };
 
     const result = layoutTitleSelector(rootState);
 
-    expect(result).toBe('E-PokedeX');
+    expect(result).toBe('E-PokédeX');
   });
 
   it('with a state with "Title B" title it selects "Title B"', () => {

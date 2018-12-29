@@ -11,7 +11,7 @@ export interface LayoutFeatureState {
 }
 
 export const initialState: LayoutState = {
-  title: 'E-PokedeX'
+  title: 'E-PokédeX'
 };
 
 export function layoutReducer(
