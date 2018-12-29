@@ -5,8 +5,9 @@ import { StoreModule } from '@ngrx/store';
 import * as fromLayout from './layout.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutEffects } from './layout.effects';
+import { PageComponent } from './page/page.component';
 
-export const layoutModuleDeclarations = [LayoutComponent];
+export const layoutModuleDeclarations = [LayoutComponent, PageComponent];
 
 export const layoutModuleImports = [
   StoreModule.forFeature('layout', fromLayout.layoutReducer),
@@ -14,8 +15,8 @@ export const layoutModuleImports = [
 ];
 
 @NgModule({
-  declarations: layoutModuleDeclarations,
+  declarations: [...layoutModuleDeclarations],
   imports: [CommonModule, ...layoutModuleImports],
-  exports: [LayoutComponent]
+  exports: [LayoutComponent, PageComponent]
 })
 export class LayoutModule {}

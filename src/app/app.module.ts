@@ -21,15 +21,9 @@ export const appModuleImports = [
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ...appModuleImports,
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, ...appModuleImports],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
