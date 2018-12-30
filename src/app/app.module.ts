@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 export const appModuleImports = [
   StoreModule.forRoot({}),
@@ -20,7 +21,14 @@ export const appModuleImports = [
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, ...appModuleImports],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ...appModuleImports,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
