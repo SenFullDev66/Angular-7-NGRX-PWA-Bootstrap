@@ -16,7 +16,6 @@
     "@angular/compiler": "~7.1.0",
     "@angular/core": "~7.1.0",
     "@angular/forms": "~7.1.0",
-    "@angular/http": "^7.1.4",
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
@@ -25,8 +24,10 @@
     "@ngrx/effects": "^7.0.0",
     "@ngrx/store": "^7.0.0",
     "@ngrx/store-devtools": "^7.0.0",
+    "@types/qs": "^6.5.1",
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.4",
+    "qs": "^6.6.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
