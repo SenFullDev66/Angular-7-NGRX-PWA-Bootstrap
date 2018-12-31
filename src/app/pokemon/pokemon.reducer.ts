@@ -1,4 +1,4 @@
-import { Action, createFeatureSelector } from '@ngrx/store';
+import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
 import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
 import { PokeApiNamedResource } from './pokeapi';
 
@@ -34,3 +34,24 @@ export const pokemonSelector = createFeatureSelector<
   PokemonFeatureState,
   PokemonState
 >('pokemon');
+
+export const pokemonListSelector = createSelector(
+  pokemonSelector,
+  state => state.pokemons
+);
+
+export const pokemonListCountSelector = createSelector(
+  pokemonListSelector,
+  pokemons => pokemons.length
+);
+
+export const pokemonPaginatedListSelector = createSelector(
+  pokemonListSelector,
+  (pokemons, { offset, limit }) => {
+    let end = offset + limit;
+    if (end > pokemons.length) {
+      end = pokemons.length;
+    }
+    return pokemons.slice(offset, end);
+  }
+);
