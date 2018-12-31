@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
 import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
-import { PokeApiNamedResource } from './pokeapi';
+import { PokeApiNamedResource, PokeApiPageable } from './pokeapi';
 
 export interface PokemonState {
   loading: boolean;
@@ -47,7 +47,7 @@ export const pokemonListCountSelector = createSelector(
 
 export const pokemonPaginatedListSelector = createSelector(
   pokemonListSelector,
-  (pokemons, { offset, limit }) => {
+  (pokemons, { offset, limit }: PokeApiPageable) => {
     let end = offset + limit;
     if (end > pokemons.length) {
       end = pokemons.length;
