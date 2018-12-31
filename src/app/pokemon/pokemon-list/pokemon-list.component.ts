@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { PokeApiPokemonList, PokeApiNamedResource } from '../pokeapi';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -7,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokemonListComponent implements OnInit {
   constructor() {}
+
+  @Input()
+  pokemons$: Observable<PokeApiNamedResource[]>;
 
   ngOnInit() {}
 }
