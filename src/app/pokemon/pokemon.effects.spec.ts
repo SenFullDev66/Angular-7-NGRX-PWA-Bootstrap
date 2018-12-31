@@ -38,7 +38,12 @@ describe('PokemonEffects', () => {
         try {
           expect(effect).toBeTruthy();
           expect(effect.type).toEqual(PokemonActionTypes.PokemonsLoaded);
-          expect(effect.pokemons).toEqual([{ id: '123', name: 'Pikachu' }]);
+          expect(effect.pokemons).toEqual([
+            {
+              name: 'bulbasaur',
+              url: 'https://pokeapi.co/api/v2/pokemon/1/'
+            }
+          ]);
           done();
         } catch (e) {
           done.fail(e);

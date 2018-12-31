@@ -1,10 +1,10 @@
 import { Action, createFeatureSelector } from '@ngrx/store';
-import { Pokemons } from './pokemon';
 import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
+import { PokeApiNamedResource } from './pokeapi';
 
 export interface PokemonState {
   loading: boolean;
-  pokemons: Pokemons;
+  pokemons: PokeApiNamedResource[];
 }
 
 export interface PokemonFeatureState {

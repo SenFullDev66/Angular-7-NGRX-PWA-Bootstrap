@@ -4,7 +4,7 @@ import {
   LoadPokemons,
   PokemonsLoaded
 } from './pokemon.actions';
-import { Pokemons } from './pokemon';
+import { PokeApiNamedResource } from './pokeapi';
 
 describe('Pokemon Reducer', () => {
   describe('an unknown action', () => {
@@ -32,10 +32,10 @@ describe('Pokemon Reducer', () => {
 
   describe(`a ${PokemonActionTypes.PokemonsLoaded} action`, () => {
     it('to a state with loading "false" and pokemons array filled', () => {
-      const pokemons: Pokemons = [
+      const pokemons: PokeApiNamedResource[] = [
         {
-          id: '123',
-          name: 'Pikachu'
+          name: 'bulbasaur',
+          url: 'https://pokeapi.co/api/v2/pokemon/1/'
         }
       ];
       const action = new PokemonsLoaded(pokemons);

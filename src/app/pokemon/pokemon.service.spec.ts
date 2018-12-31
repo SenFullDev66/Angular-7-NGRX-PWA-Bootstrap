@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Injectable, Injector } from '@angular/core';
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
 
 import { PokemonService } from './pokemon.service';
-import { Pokemons } from './pokemon';
+import { PokeApiNamedResource } from './pokeapi';
 
 describe('PokemonService', () => {
   let service: PokemonService;
@@ -27,7 +26,12 @@ describe('PokemonService', () => {
   describe('findAll function', () => {
     it('without parameter it returns a pokemons list of offset 0 and limit 10', done => {
       const count = 1;
-      const results: Pokemons = [{ id: '123', name: 'Pikachu' }];
+      const results: PokeApiNamedResource[] = [
+        {
+          name: 'bulbasaur',
+          url: 'https://pokeapi.co/api/v2/pokemon/1/'
+        }
+      ];
 
       service.findAll().subscribe(pokemons => {
         try {
@@ -46,7 +50,12 @@ describe('PokemonService', () => {
 
     it('with pageable with offset 10, it returns a pokemon list of offset 10 and limit 10', done => {
       const count = 1;
-      const results: Pokemons = [{ id: '123', name: 'Pikachu' }];
+      const results: PokeApiNamedResource[] = [
+        {
+          name: 'bulbasaur',
+          url: 'https://pokeapi.co/api/v2/pokemon/1/'
+        }
+      ];
 
       service.findAll({ offset: 10 }).subscribe(pokemons => {
         try {
@@ -65,7 +74,12 @@ describe('PokemonService', () => {
 
     it('with pageable with limit 50, it returns a pokemon list of offset 0 and limit 50', done => {
       const count = 1;
-      const results: Pokemons = [{ id: '123', name: 'Pikachu' }];
+      const results: PokeApiNamedResource[] = [
+        {
+          name: 'bulbasaur',
+          url: 'https://pokeapi.co/api/v2/pokemon/1/'
+        }
+      ];
 
       service.findAll({ limit: 50 }).subscribe(pokemons => {
         try {

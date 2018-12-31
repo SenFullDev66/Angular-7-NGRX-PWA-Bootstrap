@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PokeApiPokemonList, PokeApiPageable } from './pokemon';
+import { PokeApiPokemonList, PokeApiPageable } from './pokeapi';
 import { Observable } from 'rxjs';
 
 @Injectable({

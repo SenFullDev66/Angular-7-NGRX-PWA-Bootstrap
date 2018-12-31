@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Pokemons } from './pokemon';
+import { PokeApiNamedResource } from './pokeapi';
 
 export enum PokemonActionTypes {
   LoadPokemons = '[Pokemon] Load Pokemons',
@@ -13,7 +13,7 @@ export class LoadPokemons implements Action {
 export class PokemonsLoaded implements Action {
   readonly type = PokemonActionTypes.PokemonsLoaded;
 
-  constructor(public pokemons: Pokemons) {}
+  constructor(public pokemons: PokeApiNamedResource[]) {}
 }
 
 export type PokemonActions = LoadPokemons | PokemonsLoaded;
