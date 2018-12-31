@@ -1,7 +1,8 @@
 import {
   layoutReducer,
   initialState,
-  layoutTitleSelector
+  layoutTitleSelector,
+  layoutSelector
 } from './layout.reducer';
 import { LayoutActionTypes, ChangeTitle } from './layout.actions';
 
@@ -34,6 +35,15 @@ describe('Layout Reducer', () => {
       expect(result).not.toBe(initialState);
       expect(result.title).toBe('Title B');
     });
+  });
+});
+
+describe('layoutSelector', () => {
+  it('it selects the layout feature state', () => {
+    const layout = initialState;
+    const rootState = { layout };
+    const result = layoutSelector(rootState);
+    expect(result).toEqual(layout);
   });
 });
 

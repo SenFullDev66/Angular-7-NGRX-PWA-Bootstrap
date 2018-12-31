@@ -1,4 +1,10 @@
-import { reducer, initialState } from './pokemon.reducer';
+import {
+  reducer,
+  initialState,
+  PokemonFeatureState,
+  PokemonState,
+  pokemonSelector
+} from './pokemon.reducer';
 import {
   PokemonActionTypes,
   LoadPokemons,
@@ -54,5 +60,16 @@ describe('Pokemon Reducer', () => {
       expect(result).toBeTruthy();
       expect(result.pokemons).toEqual(pokemons);
     });
+  });
+});
+
+describe('pokemonSelector', () => {
+  it('it selects the pokemon feature state', () => {
+    const pokemonState: PokemonState = initialState;
+    const rootState: PokemonFeatureState = {
+      pokemon: pokemonState
+    };
+    const result = pokemonSelector(rootState);
+    expect(result).toEqual(pokemonState);
   });
 });
