@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { PokemonEffects } from './pokemon.effects';
 import { PokemonService } from './pokemon.service';
 import { HttpClientModule } from '@angular/common/http';
+import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
 
 export const pokemonModuleImports = [
   StoreModule.forFeature('pokemon', fromPokemon.reducer),
@@ -16,7 +17,7 @@ export const pokemonModuleImports = [
 export const pokemonModuleProviders = [PokemonService];
 
 @NgModule({
-  declarations: [],
+  declarations: [PokemonListComponent],
   imports: [
     CommonModule,
     HttpClientModule,
