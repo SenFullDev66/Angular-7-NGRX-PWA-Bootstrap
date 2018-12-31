@@ -9,17 +9,26 @@ import {
   LoadPokemons,
   PokemonsLoaded
 } from './pokemon.actions';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PokemonServiceStub } from './pokemon.service.spec';
 
 describe('PokemonEffects', () => {
   let actions$: Subject<PokemonActions>;
   let effects: PokemonEffects;
+  let stub: PokemonServiceStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PokemonEffects, provideMockActions(() => actions$)]
+      imports: [HttpClientTestingModule],
+      providers: [
+        PokemonServiceStub,
+        PokemonEffects,
+        provideMockActions(() => actions$)
+      ]
     });
     actions$ = new ReplaySubject();
     effects = TestBed.get(PokemonEffects);
+    stub = TestBed.get(PokemonServiceStub);
   });
 
   it('should be created', () => {
@@ -30,6 +39,9 @@ describe('PokemonEffects', () => {
     it(`it effects to ${
       PokemonActionTypes.PokemonsLoaded
     } action with pokemons list filled`, done => {
+      const mock = stub.findAll();
+      const { results } = mock.result;
+
       const action = new LoadPokemons();
 
       actions$.next(action);
@@ -38,17 +50,14 @@ describe('PokemonEffects', () => {
         try {
           expect(effect).toBeTruthy();
           expect(effect.type).toEqual(PokemonActionTypes.PokemonsLoaded);
-          expect(effect.pokemons).toEqual([
-            {
-              name: 'bulbasaur',
-              url: 'https://pokeapi.co/api/v2/pokemon/1/'
-            }
-          ]);
+          expect(effect.pokemons).toEqual(results);
           done();
         } catch (e) {
           done.fail(e);
         }
       });
+
+      mock.stub();
     });
   });
 });
