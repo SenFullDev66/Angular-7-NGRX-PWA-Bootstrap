@@ -109,7 +109,7 @@ export class PokemonServiceStub {
       result: { count, results },
       stub: () =>
         this.stub
-          .expectOne(`/api/pokemon?offset=${offset}&limit=${limit}`)
+          .expectOne(`/api/v2/pokemon?offset=${offset}&limit=${limit}`)
           .flush({ count, results })
     };
   }
