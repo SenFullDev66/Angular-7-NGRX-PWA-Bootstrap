@@ -15,7 +15,7 @@ export class LoadPokemons implements Action {
 export class PokemonsLoaded implements Action {
   readonly type = PokemonActionTypes.PokemonsLoaded;
 
-  constructor(public pokemons: PokeApiNamedResource[]) {}
+  constructor(public pokemons: PokeApiNamedResource[], public count: number) {}
 }
 
 export type PokemonActions = LoadPokemons | PokemonsLoaded;

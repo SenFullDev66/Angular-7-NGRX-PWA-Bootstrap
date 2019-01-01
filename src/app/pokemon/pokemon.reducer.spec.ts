@@ -4,7 +4,8 @@ import {
   PokemonFeatureState,
   PokemonState,
   pokemonSelector,
-  pokemonListSelector
+  pokemonListSelector,
+  pokemonCountSelector
 } from './pokemon.reducer';
 import {
   PokemonActionTypes,
@@ -48,7 +49,7 @@ describe('Pokemon Reducer', () => {
     let result;
 
     beforeEach(() => {
-      const action = new PokemonsLoaded(pokemons);
+      const action = new PokemonsLoaded(pokemons, pokemons.length);
       result = reducer({ ...initialState, loading: true }, action);
     });
 
@@ -93,12 +94,37 @@ describe('pokemonListSelector', () => {
           url: 'https://pokeapi.co/api/v2/pokemon/1/'
         }
       ],
-      loading: false
+      loading: false,
+      count: 1
     };
     const rootState: PokemonFeatureState = {
       pokemon: pokemonState
     };
     const result = pokemonListSelector(rootState);
     expect(result).toEqual(pokemonState.pokemons);
+  });
+});
+
+describe('pokemonCountSelector', () => {
+  it('with initial state it selects zero', () => {
+    const pokemonState: PokemonState = initialState;
+    const rootState: PokemonFeatureState = {
+      pokemon: pokemonState
+    };
+    const result = pokemonCountSelector(rootState);
+    expect(result).toBe(initialState.count);
+  });
+
+  it('with a state with count "500" it selects 500', () => {
+    const count = 500;
+    const pokemonState: PokemonState = {
+      ...initialState,
+      count
+    };
+    const rootState: PokemonFeatureState = {
+      pokemon: pokemonState
+    };
+    const result = pokemonCountSelector(rootState);
+    expect(result).toBe(count);
   });
 });

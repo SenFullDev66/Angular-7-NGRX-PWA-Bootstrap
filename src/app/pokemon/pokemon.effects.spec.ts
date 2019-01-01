@@ -52,6 +52,7 @@ describe('PokemonEffects', () => {
           expect(effect).toBeTruthy();
           expect(effect.type).toEqual(PokemonActionTypes.PokemonsLoaded);
           expect(effect.pokemons).toEqual(results);
+          expect(effect.count).toEqual(1);
           done();
         } catch (e) {
           done.fail(e);
@@ -77,6 +78,7 @@ describe('PokemonEffects', () => {
           expect(effect).toBeTruthy();
           expect(effect.type).toEqual(PokemonActionTypes.PokemonsLoaded);
           expect(effect.pokemons).toEqual(results);
+          expect(effect.count).toEqual(1);
           done();
         } catch (e) {
           done.fail(e);

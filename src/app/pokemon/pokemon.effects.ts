@@ -21,7 +21,6 @@ export class PokemonEffects {
     mergeMap((action: LoadPokemons) =>
       this.pokemonService.findAll(action.pageable)
     ),
-    map(result => result.results),
-    map(pokemons => new PokemonsLoaded(pokemons))
+    map(({ results, count }) => new PokemonsLoaded(results, count))
   );
 }

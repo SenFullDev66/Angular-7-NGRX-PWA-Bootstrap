@@ -8,13 +8,13 @@ import { PokemonEffects } from './pokemon.effects';
 import { PokemonService } from './pokemon.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const pokemonModuleImports = [
   StoreModule.forFeature('pokemon', fromPokemon.reducer),
-  EffectsModule.forFeature([PokemonEffects])
+  EffectsModule.forFeature([PokemonEffects]),
+  NgbPaginationModule
 ];
-
-export const pokemonModuleProviders = [PokemonService];
 
 @NgModule({
   declarations: [PokemonListComponent],
@@ -24,6 +24,5 @@ export const pokemonModuleProviders = [PokemonService];
     PokemonRoutingModule,
     ...pokemonModuleImports
   ]
-  // providers: [...pokemonModuleProviders]
 })
 export class PokemonModule {}

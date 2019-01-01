@@ -5,6 +5,7 @@ import { PokeApiNamedResource, PokeApiPageable } from './pokeapi';
 export interface PokemonState {
   loading: boolean;
   pokemons: PokeApiNamedResource[];
+  count: number;
 }
 
 export interface PokemonFeatureState {
@@ -13,7 +14,8 @@ export interface PokemonFeatureState {
 
 export const initialState: PokemonState = {
   loading: false,
-  pokemons: []
+  pokemons: [],
+  count: 0
 };
 
 export function reducer(
@@ -24,7 +26,12 @@ export function reducer(
     case PokemonActionTypes.LoadPokemons:
       return { ...state, loading: true };
     case PokemonActionTypes.PokemonsLoaded:
-      return { ...state, loading: false, pokemons: action.pokemons };
+      return {
+        ...state,
+        loading: false,
+        pokemons: action.pokemons,
+        count: action.count
+      };
     default:
       return state;
   }
@@ -40,7 +47,7 @@ export const pokemonListSelector = createSelector(
   state => state.pokemons
 );
 
-export const pokemonListCountSelector = createSelector(
-  pokemonListSelector,
-  pokemons => pokemons.length
+export const pokemonCountSelector = createSelector(
+  pokemonSelector,
+  state => state.count
 );
