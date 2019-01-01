@@ -11,6 +11,7 @@ import {
 } from './pokemon.actions';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PokemonServiceStub } from './pokemon.service.spec';
+import { PokeApiPageable } from './pokeapi';
 
 describe('PokemonEffects', () => {
   let actions$: Subject<PokemonActions>;
@@ -36,13 +37,38 @@ describe('PokemonEffects', () => {
   });
 
   describe(`on "${PokemonActionTypes.LoadPokemons}" action`, () => {
-    it(`it effects to ${
+    it(`without pageable it effects to ${
       PokemonActionTypes.PokemonsLoaded
     } action with pokemons list filled`, done => {
       const mock = stub.findAll();
       const { results } = mock.result;
 
       const action = new LoadPokemons();
+
+      actions$.next(action);
+
+      effects.onLoadPokemons.subscribe((effect: PokemonsLoaded) => {
+        try {
+          expect(effect).toBeTruthy();
+          expect(effect.type).toEqual(PokemonActionTypes.PokemonsLoaded);
+          expect(effect.pokemons).toEqual(results);
+          done();
+        } catch (e) {
+          done.fail(e);
+        }
+      });
+
+      mock.stub();
+    });
+
+    it(`with pageable it effects to ${
+      PokemonActionTypes.PokemonsLoaded
+    } action with pokemons list filled`, done => {
+      const pageable: PokeApiPageable = { offset: 20, limit: 50 };
+      const mock = stub.findAll(pageable);
+      const { results } = mock.result;
+
+      const action = new LoadPokemons(pageable);
 
       actions$.next(action);
 

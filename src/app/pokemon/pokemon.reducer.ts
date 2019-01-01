@@ -44,14 +44,3 @@ export const pokemonListCountSelector = createSelector(
   pokemonListSelector,
   pokemons => pokemons.length
 );
-
-export const pokemonPaginatedListSelector = createSelector(
-  pokemonListSelector,
-  (pokemons, { offset, limit }: PokeApiPageable) => {
-    let end = offset + limit;
-    if (end > pokemons.length) {
-      end = pokemons.length;
-    }
-    return pokemons.slice(offset, end);
-  }
-);

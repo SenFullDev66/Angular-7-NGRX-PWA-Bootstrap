@@ -4,8 +4,7 @@ import {
   PokemonFeatureState,
   PokemonState,
   pokemonSelector,
-  pokemonListSelector,
-  pokemonPaginatedListSelector
+  pokemonListSelector
 } from './pokemon.reducer';
 import {
   PokemonActionTypes,
@@ -101,93 +100,5 @@ describe('pokemonListSelector', () => {
     };
     const result = pokemonListSelector(rootState);
     expect(result).toEqual(pokemonState.pokemons);
-  });
-});
-
-describe('pokemonPaginatedListSelector', () => {
-  it('with initial value, it selects an empty array', () => {
-    const pokemonState: PokemonState = initialState;
-    const rootState: PokemonFeatureState = {
-      pokemon: pokemonState
-    };
-    const result = pokemonPaginatedListSelector(rootState, {
-      offset: 0,
-      limit: 10
-    });
-    expect(result).toEqual(pokemonState.pokemons);
-  });
-
-  describe('with state with an array of 10 pokemons', () => {
-    const pokemonState = {
-      pokemons: [
-        {
-          name: 'bulbasaur',
-          url: 'https://pokeapi.co/api/v2/pokemon/1/'
-        },
-        {
-          name: 'ivysaur',
-          url: 'https://pokeapi.co/api/v2/pokemon/2/'
-        },
-        {
-          name: 'venusaur',
-          url: 'https://pokeapi.co/api/v2/pokemon/3/'
-        },
-        {
-          name: 'charmander',
-          url: 'https://pokeapi.co/api/v2/pokemon/4/'
-        },
-        {
-          name: 'charmeleon',
-          url: 'https://pokeapi.co/api/v2/pokemon/5/'
-        },
-        {
-          name: 'charizard',
-          url: 'https://pokeapi.co/api/v2/pokemon/6/'
-        },
-        {
-          name: 'squirtle',
-          url: 'https://pokeapi.co/api/v2/pokemon/7/'
-        },
-        {
-          name: 'wartortle',
-          url: 'https://pokeapi.co/api/v2/pokemon/8/'
-        },
-        {
-          name: 'blastoise',
-          url: 'https://pokeapi.co/api/v2/pokemon/9/'
-        },
-        {
-          name: 'caterpie',
-          url: 'https://pokeapi.co/api/v2/pokemon/10/'
-        }
-      ],
-      loading: false
-    };
-    const rootState: PokemonFeatureState = {
-      pokemon: pokemonState
-    };
-
-    it('and with offset 3 and limit 3, it selects 3 pokemons starting of "charmander"', () => {
-      const result = pokemonPaginatedListSelector(rootState, {
-        offset: 3,
-        limit: 3
-      });
-      expect(result).toBeTruthy();
-      expect(result.length).toBe(3);
-      expect(result).toEqual([
-        {
-          name: 'charmander',
-          url: 'https://pokeapi.co/api/v2/pokemon/4/'
-        },
-        {
-          name: 'charmeleon',
-          url: 'https://pokeapi.co/api/v2/pokemon/5/'
-        },
-        {
-          name: 'charizard',
-          url: 'https://pokeapi.co/api/v2/pokemon/6/'
-        }
-      ]);
-    });
   });
 });

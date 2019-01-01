@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { PokeApiNamedResource } from './pokeapi';
+import { PokeApiNamedResource, PokeApiPageable } from './pokeapi';
 
 export enum PokemonActionTypes {
   LoadPokemons = '[Pokemon] Load Pokemons',
@@ -8,6 +8,8 @@ export enum PokemonActionTypes {
 
 export class LoadPokemons implements Action {
   readonly type = PokemonActionTypes.LoadPokemons;
+
+  constructor(public pageable?: PokeApiPageable) {}
 }
 
 export class PokemonsLoaded implements Action {
