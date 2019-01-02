@@ -14,7 +14,7 @@ import {
   LoadPokemons,
   PokemonsLoaded
 } from './pokemon.actions';
-import { PokeApiNamedResource } from './pokeapi';
+import { PokeApiNamedResource, Pokemon } from './pokeapi';
 
 describe('Pokemon Reducer', () => {
   describe('an unknown action', () => {
@@ -41,11 +41,8 @@ describe('Pokemon Reducer', () => {
   });
 
   describe(`a ${PokemonActionTypes.PokemonsLoaded} action`, () => {
-    const pokemons: PokeApiNamedResource[] = [
-      {
-        name: 'bulbasaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/1/'
-      }
+    const pokemons: Pokemon[] = [
+      new Pokemon('bulbasaur', 'https://pokeapi.co/api/v2/pokemon/1/')
     ];
 
     let result;
@@ -92,10 +89,7 @@ describe('pokemonListSelector', () => {
     const pokemonState = {
       ...initialState,
       pokemons: [
-        {
-          name: 'bulbasaur',
-          url: 'https://pokeapi.co/api/v2/pokemon/1/'
-        }
+        new Pokemon('bulbasaur', 'https://pokeapi.co/api/v2/pokemon/1/')
       ],
       loading: false,
       count: 1

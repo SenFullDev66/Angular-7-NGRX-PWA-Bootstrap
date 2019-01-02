@@ -7,6 +7,7 @@ import {
 } from './pokemon.actions';
 import { map, mergeMap } from 'rxjs/operators';
 import { PokemonService } from './pokemon.service';
+import { Pokemon } from './pokeapi';
 
 @Injectable()
 export class PokemonEffects {
@@ -21,6 +22,10 @@ export class PokemonEffects {
     mergeMap((action: LoadPokemons) =>
       this.pokemonService.findAll(action.pageable)
     ),
+    map(({ results, ...rest }) => ({
+      ...rest,
+      results: results.map(({ name, url }) => new Pokemon(name, url))
+    })),
     map(({ results, count }) => new PokemonsLoaded(results, count))
   );
 }

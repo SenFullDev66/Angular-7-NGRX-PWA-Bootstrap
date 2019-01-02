@@ -109,12 +109,7 @@ describe('PokemonListPageComponent', () => {
 
     it('when PokemonService.findAll request is resolved, the loading$ observable is false', done => {
       const mock = stub.findAll();
-      spyOn(service, 'findAll').and.returnValue(
-        of({
-          count: 1,
-          result: mock.result
-        })
-      );
+      spyOn(service, 'findAll').and.returnValue(of(mock.result));
 
       effects.history$
         .pipe(

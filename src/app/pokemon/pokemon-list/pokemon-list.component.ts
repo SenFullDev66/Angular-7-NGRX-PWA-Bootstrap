@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PokeApiNamedResource } from '../pokeapi';
+import { Pokemon } from '../pokeapi';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -11,14 +11,14 @@ export class PokemonListComponent implements OnInit {
   constructor() {}
 
   @Input()
-  pokemons$: Observable<PokeApiNamedResource[]>;
+  pokemons$: Observable<Pokemon[]>;
 
   @Output()
-  pokemonClick = new EventEmitter<PokeApiNamedResource>();
+  pokemonClick = new EventEmitter<Pokemon>();
 
   ngOnInit() {}
 
-  handlePokemonClick(pokemon: PokeApiNamedResource) {
+  handlePokemonClick(pokemon: Pokemon) {
     this.pokemonClick.emit(pokemon);
   }
 }

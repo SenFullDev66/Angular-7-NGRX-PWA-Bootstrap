@@ -9,9 +9,11 @@
       [collectionSize]="count"
       [page]="page$ | async"
       (pageChange)="setPage($event)"
-      [maxSize]="10"
+      [maxSize]="5"
+      [pageSize]="limit$ | async"
       [boundaryLinks]="true"
       [ellipses]="false"
+      [rotate]="true"
     ></ngb-pagination>
   </div>
   <ng-template #loading>Loading pokemons...</ng-template>

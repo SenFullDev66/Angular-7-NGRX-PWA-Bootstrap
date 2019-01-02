@@ -1,11 +1,11 @@
 import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
 import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
-import { PokeApiNamedResource, PokeApiPageable } from './pokeapi';
+import { PokeApiNamedResource, PokeApiPageable, Pokemon } from './pokeapi';
 
 export interface PokemonState {
   loading: boolean;
   pageable: PokeApiPageable;
-  pokemons: PokeApiNamedResource[];
+  pokemons: Pokemon[];
   count: number;
 }
 

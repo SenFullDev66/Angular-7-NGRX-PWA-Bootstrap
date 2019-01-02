@@ -9,7 +9,8 @@ import {
   PokeApiNamedResource,
   PokeApiPageable,
   PokeApiList,
-  PokeApiPokemonList
+  PokeApiPokemonList,
+  Pokemon
 } from './pokeapi';
 import { Injectable } from '@angular/core';
 
@@ -95,14 +96,11 @@ export class PokemonServiceStub {
 
   findAll(
     pageable: PokeApiPageable = { offset: 0, limit: 10 }
-  ): Stub<PokeApiPokemonList> {
+  ): Stub<PokeApiList<Pokemon>> {
     const { offset = 0, limit = 10 } = pageable;
     const count = 1;
-    const results: PokeApiNamedResource[] = [
-      {
-        name: 'bulbasaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/1/'
-      }
+    const results: Pokemon[] = [
+      new Pokemon('bulbasaur', 'https://pokeapi.co/api/v2/pokemon/1/')
     ];
 
     return {

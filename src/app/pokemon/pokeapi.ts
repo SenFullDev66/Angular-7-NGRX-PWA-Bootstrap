@@ -18,8 +18,16 @@ export interface PokeApiList<T extends PokeApiResource> {
   results: T[];
 }
 
-export interface Pokemon extends PokeApiNamedResource {
-  id: number;
+export class Pokemon implements PokeApiNamedResource {
+  constructor(public name: string, public url: string) {}
+
+  get imageSrc() {
+    const [host, path] = this.url.split('/api/v2');
+    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites${path.replace(
+      /\/$/,
+      ''
+    )}.png`;
+  }
 }
 
 export interface PokeApiPokemonList extends PokeApiList<PokeApiNamedResource> {}

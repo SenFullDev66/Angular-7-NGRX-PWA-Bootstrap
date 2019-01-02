@@ -9,7 +9,7 @@ import {
 } from '../pokemon.reducer';
 import { LoadPokemons } from '../pokemon.actions';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { PokeApiNamedResource, PokeApiPageable } from '../pokeapi';
+import { PokeApiNamedResource, PokeApiPageable, Pokemon } from '../pokeapi';
 import {
   withLatestFrom,
   map,
@@ -29,7 +29,7 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
 
   mounted = true;
   loading$: Observable<boolean>;
-  pokemons$: Observable<PokeApiNamedResource[]>;
+  pokemons$: Observable<Pokemon[]>;
   count$: Observable<number>;
   pageable$: Observable<PokeApiPageable>;
 
