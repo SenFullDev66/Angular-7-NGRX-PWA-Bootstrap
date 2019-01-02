@@ -1,27 +1,25 @@
 <table *ngIf="pokemons$" class="table">
   <thead>
     <tr>
-      <th scope="col">ID</th>
       <th scope="col">Name</th>
       <th scope="col"></th>
     </tr>
   </thead>
   <tbody *ngIf="(pokemons$ | async) as pokemons; else loading">
     <tr *ngFor="let pokemon of pokemons; let i = index" [attr.data-index]="i">
-      <td scope="row">{{ i + 1 }}</td>
-      <td scope="row">{{ pokemon.name }}</td>
+      <td class="text-capitalize" scope="row">{{ pokemon.name }}</td>
       <td scope="row">
-        <button type="button" class="btn btn-sm btn-default">View</button>
+        <button type="button" class="btn btn-sm btn-secondary">View</button>
       </td>
     </tr>
     <tr *ngIf="!pokemons.length" data-index="0">
-      <td scope="row" colspan="3">No results found</td>
+      <td scope="row" colspan="2">No results found</td>
     </tr>
   </tbody>
   <ng-template #loading>
     <tbody>
       <tr data-index="0">
-        <td scope="row" colspan="3">Loading pokemons...</td>
+        <td scope="row" colspan="2">Loading pokemons...</td>
       </tr>
     </tbody>
   </ng-template>

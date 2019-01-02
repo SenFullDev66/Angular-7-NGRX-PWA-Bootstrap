@@ -47,12 +47,12 @@ describe('PokemonListComponent', () => {
         expect(header).toBeTruthy();
       });
 
-      it('the table header has 3 columns', () => {
+      it('the table header has 2 columns', () => {
         const headers: HTMLElement[] = fixture.nativeElement.querySelectorAll(
           'table.table > thead > tr > th'
         );
         expect(headers).toBeTruthy();
-        expect(headers.length).toBe(3);
+        expect(headers.length).toBe(2);
       });
 
       it('the table has a body', () => {
@@ -77,25 +77,19 @@ describe('PokemonListComponent', () => {
           );
         });
 
-        it('has 3 columns', () => {
+        it('has 2 columns', () => {
           expect(columns).toBeTruthy();
-          expect(columns.length).toBe(3);
+          expect(columns.length).toBe(2);
         });
 
-        it('its first column value is "1"', () => {
+        it('its first column value is "bulbasaur"', () => {
           const column = columns[0];
-          expect(column).toBeTruthy();
-          expect(column.textContent).toBe('1');
-        });
-
-        it('its second column value is "bulbasaur"', () => {
-          const column = columns[1];
           expect(column).toBeTruthy();
           expect(column.textContent).toBe('bulbasaur');
         });
 
-        it('its third column has a view button', () => {
-          const column = columns[2];
+        it('its second column has a view button', () => {
+          const column = columns[1];
           expect(column).toBeTruthy();
 
           const button = column.querySelector('button');
@@ -123,12 +117,12 @@ describe('PokemonListComponent', () => {
         expect(header).toBeTruthy();
       });
 
-      it('the table header has 3 columns', () => {
+      it('the table header has 2 columns', () => {
         const headers: HTMLElement[] = fixture.nativeElement.querySelectorAll(
           'table.table > thead > tr > th'
         );
         expect(headers).toBeTruthy();
-        expect(headers.length).toBe(3);
+        expect(headers.length).toBe(2);
       });
 
       it('the table has a body', () => {
@@ -144,12 +138,12 @@ describe('PokemonListComponent', () => {
         expect(rows.length).toBe(1);
       });
 
-      it('the table row has one column with colspan 3', () => {
+      it('the table row has one column with colspan 2', () => {
         const col: HTMLTableColElement = fixture.nativeElement.querySelector(
           'table.table > tbody > tr > td'
         );
         expect(col).toBeTruthy();
-        expect(col.getAttribute('colspan')).toBe('3');
+        expect(col.getAttribute('colspan')).toBe('2');
       });
 
       it('the table row has "No results found" text', () => {
