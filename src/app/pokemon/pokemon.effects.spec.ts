@@ -12,6 +12,7 @@ import {
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PokemonServiceStub } from './pokemon.service.spec';
 import { PokeApiPageable } from './pokeapi';
+import { pokemonModuleProviders } from './pokemon.module';
 
 describe('PokemonEffects', () => {
   let actions$: Subject<PokemonActions>;
@@ -22,6 +23,7 @@ describe('PokemonEffects', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        ...pokemonModuleProviders,
         PokemonServiceStub,
         PokemonEffects,
         provideMockActions(() => actions$)

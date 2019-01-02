@@ -20,7 +20,7 @@ describe('PokemonService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [PokemonServiceStub]
+      providers: [PokemonService, PokemonServiceStub]
     });
     service = TestBed.get(PokemonService);
     stub = TestBed.get(PokemonServiceStub);

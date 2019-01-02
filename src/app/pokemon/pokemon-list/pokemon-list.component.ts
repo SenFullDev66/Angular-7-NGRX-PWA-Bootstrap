@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PokeApiPokemonList, PokeApiNamedResource } from '../pokeapi';
+import { PokeApiNamedResource } from '../pokeapi';
 
 @Component({
   selector: 'app-pokemon-list',

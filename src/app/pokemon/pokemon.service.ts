@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { PokeApiPokemonList, PokeApiPageable } from './pokeapi';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PokemonService {
   constructor(private http: HttpClient) {}
 
