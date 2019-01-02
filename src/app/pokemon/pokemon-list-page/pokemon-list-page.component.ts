@@ -8,16 +8,9 @@ import {
   pokemonPageableSelector
 } from '../pokemon.reducer';
 import { LoadPokemons } from '../pokemon.actions';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { PokeApiNamedResource, PokeApiPageable, Pokemon } from '../pokeapi';
-import {
-  withLatestFrom,
-  map,
-  takeWhile,
-  take,
-  debounceTime,
-  filter
-} from 'rxjs/operators';
+import { withLatestFrom, map, takeWhile, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pokemon-list-page',
@@ -41,13 +34,12 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
     this.count$ = this.store$.pipe(select(pokemonCountSelector));
     this.loading$ = this.store$.pipe(select(pokemonLoadingSelector));
 
-    this.pageable$ = this.page$.pipe(
-      withLatestFrom(this.limit$),
+    const paginationPipe = combineLatest(this.page$, this.limit$);
+    this.pageable$ = paginationPipe.pipe(
       map(([page, limit]) => ({
         offset: limit * page - limit,
         limit
-      })),
-      debounceTime(200)
+      }))
     );
 
     this.store$
@@ -66,7 +58,10 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
       });
 
     this.pageable$
-      .pipe(takeWhile(() => this.mounted))
+      .pipe(
+        takeWhile(() => this.mounted),
+        debounceTime(200)
+      )
       .subscribe((pageable: PokeApiPageable) => this.loadPokemons(pageable));
   }
 
