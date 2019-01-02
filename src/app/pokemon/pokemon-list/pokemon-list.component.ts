@@ -14,13 +14,11 @@ export class PokemonListComponent implements OnInit {
   pokemons$: Observable<PokeApiNamedResource[]>;
 
   @Output()
-  pokemonClick: EventEmitter<PokeApiNamedResource>;
+  pokemonClick = new EventEmitter<PokeApiNamedResource>();
 
   ngOnInit() {}
 
   handlePokemonClick(pokemon: PokeApiNamedResource) {
-    if (this.pokemonClick) {
-      this.pokemonClick.emit(pokemon);
-    }
+    this.pokemonClick.emit(pokemon);
   }
 }

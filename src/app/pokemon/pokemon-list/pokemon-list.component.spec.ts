@@ -27,32 +27,12 @@ describe('PokemonListComponent', () => {
   });
 
   describe('the @Output() pokemonClick event emitter', () => {
-    let emitter: EventEmitter<PokeApiNamedResource>;
-    beforeEach(() => {
-      emitter = new EventEmitter();
-    });
-
-    it('when not provided, nothing happens', done => {
-      try {
-        const pokemon: PokeApiNamedResource = {
-          name: 'bulbasaur',
-          url: 'https://pokeapi.co/api/v2/pokemon/1/'
-        };
-        expect(component.pokemonClick).toBeFalsy();
-        component.handlePokemonClick(pokemon);
-        done();
-      } catch (e) {
-        done.fail(e);
-      }
-    });
-
     it('when provided, it gets triggered when component handlePokemonClick function is called', done => {
-      component.pokemonClick = emitter;
       const pokemon: PokeApiNamedResource = {
         name: 'bulbasaur',
         url: 'https://pokeapi.co/api/v2/pokemon/1/'
       };
-      emitter.pipe(take(1)).subscribe(event => {
+      component.pokemonClick.pipe(take(1)).subscribe(event => {
         try {
           expect(event).toBe(pokemon);
           done();

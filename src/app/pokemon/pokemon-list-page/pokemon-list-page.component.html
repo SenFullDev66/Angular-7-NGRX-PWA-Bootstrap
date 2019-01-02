@@ -1,6 +1,9 @@
 <app-page title="Pokemons list">
   <div *ngIf="!(loading$ | async); else loading">
-    <app-pokemon-list [pokemons$]="pokemons$"></app-pokemon-list>
+    <app-pokemon-list
+      [pokemons$]="pokemons$"
+      (pokemonClick)="handlePokemonClick($event)"
+    ></app-pokemon-list>
     <ngb-pagination
       *ngIf="(count$ | async) as count"
       [collectionSize]="count"

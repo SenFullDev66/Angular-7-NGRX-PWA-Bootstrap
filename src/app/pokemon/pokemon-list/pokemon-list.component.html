@@ -9,7 +9,13 @@
     <tr *ngFor="let pokemon of pokemons; let i = index" [attr.data-index]="i">
       <td class="text-capitalize" scope="row">{{ pokemon.name }}</td>
       <td scope="row">
-        <button type="button" class="btn btn-sm btn-secondary">View</button>
+        <button
+          type="button"
+          class="btn btn-sm btn-secondary"
+          (click)="handlePokemonClick(pokemon)"
+        >
+          View
+        </button>
       </td>
     </tr>
     <tr *ngIf="!pokemons.length" data-index="0">

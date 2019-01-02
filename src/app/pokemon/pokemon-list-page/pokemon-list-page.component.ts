@@ -78,6 +78,10 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
     this.page$.next(page);
   }
 
+  handlePokemonClick(pokemon: PokeApiNamedResource) {
+    console.log('Clicked to view details of a pokemon', pokemon);
+  }
+
   private loadPokemons(pageable: PokeApiPageable): void {
     this.store$.dispatch(new LoadPokemons(pageable));
   }

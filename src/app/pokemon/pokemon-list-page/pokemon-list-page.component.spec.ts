@@ -18,6 +18,7 @@ import { PokemonService } from '../pokemon.service';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, of, from, BehaviorSubject } from 'rxjs';
 import { PokemonActionTypes } from '../pokemon.actions';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('PokemonListPageComponent', () => {
   let component: PokemonListPageComponent;
@@ -32,6 +33,7 @@ describe('PokemonListPageComponent', () => {
         StoreModule.forRoot({}),
         EffectsModule.forRoot([ReplayableEffects]),
         HttpClientTestingModule,
+        RouterTestingModule,
         NgbPaginationModule,
         LayoutModule,
         ...pokemonModuleImports
