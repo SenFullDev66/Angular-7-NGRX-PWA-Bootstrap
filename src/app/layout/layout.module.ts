@@ -6,8 +6,13 @@ import * as fromLayout from './layout.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutEffects } from './layout.effects';
 import { PageComponent } from './page/page.component';
+import { MessageComponent } from './message/message.component';
 
-export const layoutModuleDeclarations = [LayoutComponent, PageComponent];
+export const layoutModuleDeclarations = [
+  LayoutComponent,
+  PageComponent,
+  MessageComponent
+];
 
 export const layoutModuleImports = [
   StoreModule.forFeature('layout', fromLayout.layoutReducer),
