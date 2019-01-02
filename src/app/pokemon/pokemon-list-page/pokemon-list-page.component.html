@@ -1,10 +1,15 @@
 <app-page title="Pokemons list">
-  <app-pokemon-list [pokemons$]="pokemons$"></app-pokemon-list>
-  <ngb-pagination
-    [collectionSize]="count$ | async"
-    [page]="page$ | async"
-    (pageChange)="setPage($event)"
-    [maxSize]="10"
-    [boundaryLinks]="true"
-  ></ngb-pagination>
+  <div *ngIf="!(loading$ | async); else loading">
+    <app-pokemon-list [pokemons$]="pokemons$"></app-pokemon-list>
+    <ngb-pagination
+      *ngIf="(count$ | async) as count"
+      [collectionSize]="count"
+      [page]="page$ | async"
+      (pageChange)="setPage($event)"
+      [maxSize]="10"
+      [boundaryLinks]="true"
+      [ellipses]="false"
+    ></ngb-pagination>
+  </div>
+  <ng-template #loading>Loading pokemons...</ng-template>
 </app-page>
