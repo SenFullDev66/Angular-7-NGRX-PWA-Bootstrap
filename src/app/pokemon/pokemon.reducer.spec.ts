@@ -5,7 +5,8 @@ import {
   PokemonState,
   pokemonSelector,
   pokemonListSelector,
-  pokemonCountSelector
+  pokemonCountSelector,
+  pokemonLoadingSelector
 } from './pokemon.reducer';
 import {
   PokemonActionTypes,
@@ -126,5 +127,28 @@ describe('pokemonCountSelector', () => {
     };
     const result = pokemonCountSelector(rootState);
     expect(result).toBe(count);
+  });
+});
+
+describe('pokemonLoadingSelector', () => {
+  it('with initial state it selects "true"', () => {
+    const pokemonState: PokemonState = initialState;
+    const rootState: PokemonFeatureState = {
+      pokemon: pokemonState
+    };
+    const result = pokemonLoadingSelector(rootState);
+    expect(result).toBeTruthy();
+  });
+
+  it('with a state that loading is false, it selects "false"', () => {
+    const pokemonState: PokemonState = {
+      ...initialState,
+      loading: false
+    };
+    const rootState: PokemonFeatureState = {
+      pokemon: pokemonState
+    };
+    const result = pokemonLoadingSelector(rootState);
+    expect(result).toBeFalsy();
   });
 });

@@ -13,7 +13,7 @@ export interface PokemonFeatureState {
 }
 
 export const initialState: PokemonState = {
-  loading: false,
+  loading: true,
   pokemons: [],
   count: 0
 };
@@ -41,6 +41,11 @@ export const pokemonSelector = createFeatureSelector<
   PokemonFeatureState,
   PokemonState
 >('pokemon');
+
+export const pokemonLoadingSelector = createSelector(
+  pokemonSelector,
+  state => state.loading
+);
 
 export const pokemonListSelector = createSelector(
   pokemonSelector,
