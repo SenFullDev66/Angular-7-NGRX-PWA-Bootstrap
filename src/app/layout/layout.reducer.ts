@@ -11,7 +11,7 @@ export interface LayoutFeatureState {
 }
 
 export const initialState: LayoutState = {
-  title: 'E-PokedeX'
+  title: 'E-PokédeX'
 };
 
 export function layoutReducer(
@@ -26,7 +26,10 @@ export function layoutReducer(
   }
 }
 
-export const layoutSelector = createFeatureSelector<any, LayoutState>('layout');
+export const layoutSelector = createFeatureSelector<
+  LayoutFeatureState,
+  LayoutState
+>('layout');
 
 export const layoutTitleSelector = createSelector(
   layoutSelector,

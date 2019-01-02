@@ -1,0 +1,38 @@
+<div class="table-responsive">
+  <table *ngIf="pokemons$" class="table">
+    <thead>
+      <tr>
+        <th scope="col" class="image">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody *ngIf="(pokemons$ | async) as pokemons; else loading">
+      <tr *ngFor="let pokemon of pokemons; let i = index" [attr.data-index]="i">
+        <td class="image">
+          <img [src]="pokemon.imageSrc" alt="{{ pokemon.name }} front image" />
+        </td>
+        <td class="text-capitalize name" scope="row">{{ pokemon.name }}</td>
+        <td class="view" scope="row">
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            (click)="handlePokemonClick(pokemon)"
+          >
+            View
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!pokemons.length" data-index="0">
+        <td scope="row" colspan="3">No results found</td>
+      </tr>
+    </tbody>
+    <ng-template #loading>
+      <tbody>
+        <tr data-index="0">
+          <td scope="row" colspan="3">Loading pokemons...</td>
+        </tr>
+      </tbody>
+    </ng-template>
+  </table>
+</div>

@@ -7,22 +7,28 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
-import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 export const appModuleImports = [
-  StoreModule.forRoot(reducers, { metaReducers }),
+  StoreModule.forRoot({}),
   !environment.production ? StoreDevtoolsModule.instrument() : [],
-  EffectsModule.forRoot([AppEffects]),
+  EffectsModule.forRoot([]),
   LayoutModule,
   NgbModule
 ];
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, ...appModuleImports],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ...appModuleImports,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

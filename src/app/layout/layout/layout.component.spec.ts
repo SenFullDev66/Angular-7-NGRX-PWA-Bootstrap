@@ -1,12 +1,11 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LayoutComponent } from "./layout.component";
+import { LayoutComponent } from './layout.component';
 import {
   layoutModuleDeclarations,
   layoutModuleImports
-} from "../layout.module";
-import { StoreModule } from "@ngrx/store";
-import { layoutReducer } from "../layout.reducer";
+} from '../layout.module';
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 describe('LayoutComponent', () => {
@@ -17,9 +16,7 @@ describe('LayoutComponent', () => {
     TestBed.configureTestingModule({
       declarations: [...layoutModuleDeclarations],
       imports: [
-        StoreModule.forRoot({
-          layout: layoutReducer
-        }),
+        StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         ...layoutModuleImports
       ]
@@ -36,12 +33,12 @@ describe('LayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('title should be "E-PokedeX"', done => {
+  it('title should be "E-PokédeX"', done => {
     expect(component.title).toBeTruthy();
 
     component.title.subscribe(title => {
       try {
-        expect(title).toBe('E-PokedeX');
+        expect(title).toBe('E-PokédeX');
         done();
       } catch (e) {
         done.fail(e);
@@ -59,17 +56,14 @@ describe('LayoutComponent', () => {
       expect(header).toBeTruthy();
     });
 
-    it('should have a logo image', () => {
-      const logo: HTMLImageElement = header.querySelector('img.logo');
-      expect(logo).toBeTruthy();
-      expect(logo.alt).toBe('E-PokedeX logo');
-      expect(logo.src).toMatch(/\/assets\/images\/logo\.svg(\?.+)?$/);
-    });
-
     it('should have a h1 element as title', () => {
-      const span: HTMLSpanElement = header.querySelector('h1.title');
-      expect(span).toBeTruthy();
-      expect(span.textContent).toBe('E-PokedeX');
+      const h1: HTMLHeadingElement = header.querySelector('h1.title');
+      const solid: HTMLSpanElement = h1.querySelector('.solid');
+      const hollow: HTMLSpanElement = h1.querySelector('.hollow');
+      expect(solid).toBeTruthy();
+      expect(solid.textContent).toBe('E-PokédeX');
+      expect(hollow).toBeTruthy();
+      expect(hollow.textContent).toBe('E-PokédeX');
     });
   });
 

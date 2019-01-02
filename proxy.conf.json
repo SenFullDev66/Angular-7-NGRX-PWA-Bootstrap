@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://pokeapi.salestock.net",
+    "secure": false
+  }
+}

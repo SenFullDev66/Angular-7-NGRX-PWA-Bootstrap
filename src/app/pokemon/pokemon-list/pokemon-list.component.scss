@@ -1,0 +1,33 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+
+.table {
+  & > thead > tr > th.image {
+    width: 110px;
+  }
+
+  & > tbody > tr {
+    height: 110px;
+
+    & > td.name {
+      vertical-align: middle;
+      font-size: 1.75em;
+    }
+
+    @media screen and (max-width: map-get($map: $grid-breakpoints, $key: 'sm')) {
+      & > td.name {
+        font-size: 1.3em;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      & > td.name {
+        font-size: 1em;
+      }
+    }
+
+    & > td.view {
+      vertical-align: middle;
+    }
+  }
+}

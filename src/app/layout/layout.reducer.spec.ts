@@ -1,7 +1,8 @@
 import {
   layoutReducer,
   initialState,
-  layoutTitleSelector
+  layoutTitleSelector,
+  layoutSelector
 } from './layout.reducer';
 import { LayoutActionTypes, ChangeTitle } from './layout.actions';
 
@@ -37,13 +38,22 @@ describe('Layout Reducer', () => {
   });
 });
 
+describe('layoutSelector', () => {
+  it('it selects the layout feature state', () => {
+    const layout = initialState;
+    const rootState = { layout };
+    const result = layoutSelector(rootState);
+    expect(result).toEqual(layout);
+  });
+});
+
 describe('layoutTitleSelector', () => {
-  it('with initial state it selects "E-PokedeX"', () => {
+  it('with initial state it selects "E-PokédeX"', () => {
     const rootState = { layout: initialState };
 
     const result = layoutTitleSelector(rootState);
 
-    expect(result).toBe('E-PokedeX');
+    expect(result).toBe('E-PokédeX');
   });
 
   it('with a state with "Title B" title it selects "Title B"', () => {

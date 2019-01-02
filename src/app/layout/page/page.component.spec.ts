@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './page.component';
 import { layoutModuleImports } from '../layout.module';
 import { StoreModule } from '@ngrx/store';
-import { layoutReducer } from '../layout.reducer';
 import { EffectsModule, ofType } from '@ngrx/effects';
 import { Observable, from, ReplaySubject } from 'rxjs';
 import { Component, ViewChild } from '@angular/core';
@@ -17,9 +16,7 @@ describe('PageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          layout: layoutReducer
-        }),
+        StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         ...layoutModuleImports
       ],
@@ -41,8 +38,8 @@ describe('PageComponent', () => {
       wrapped = component.wrapped;
     });
 
-    it('it immediatly changes document title to "E-PokedeX - Title A"', () => {
-      expect(document.title).toEqual('E-PokedeX - Title A');
+    it('it immediatly changes document title to "E-PokédeX - Title A"', () => {
+      expect(document.title).toEqual('E-PokédeX - Title A');
     });
 
     it('the "loading" property is false', async () => {
@@ -78,7 +75,7 @@ describe('PageComponent', () => {
     let resolve: Function;
 
     beforeEach(() => {
-      document.title = 'E-PokedeX - Starting';
+      document.title = 'E-PokédeX - Starting';
       const observable = from(
         new Promise<string>(_resolve => {
           resolve = () => _resolve(title);
@@ -90,7 +87,7 @@ describe('PageComponent', () => {
 
     describe('when it\'s not resolved yet', () => {
       it('the document title keeps unchanged', () => {
-        expect(document.title).toEqual('E-PokedeX - Starting');
+        expect(document.title).toEqual('E-PokédeX - Starting');
       });
 
       it('the loading property is true', async () => {
@@ -132,10 +129,10 @@ describe('PageComponent', () => {
         await fixture.detectChanges();
       });
 
-      it('it changes document title to "E-PokedeX - Title B"', done => {
+      it('it changes document title to "E-PokédeX - Title B"', done => {
         subject.pipe(ofType(LayoutActionTypes.TitleChanged)).subscribe(() => {
           try {
-            expect(document.title).toEqual('E-PokedeX - Title B');
+            expect(document.title).toEqual('E-PokédeX - Title B');
             done();
           } catch (e) {
             done.fail(e);
