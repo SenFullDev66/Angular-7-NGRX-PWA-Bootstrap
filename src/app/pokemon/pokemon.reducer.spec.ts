@@ -6,7 +6,8 @@ import {
   pokemonSelector,
   pokemonListSelector,
   pokemonCountSelector,
-  pokemonLoadingSelector
+  pokemonLoadingSelector,
+  pokemonPageableSelector
 } from './pokemon.reducer';
 import {
   PokemonActionTypes,
@@ -89,6 +90,7 @@ describe('pokemonListSelector', () => {
 
   it('with state with an array of pokemons, it selects the same array', () => {
     const pokemonState = {
+      ...initialState,
       pokemons: [
         {
           name: 'bulbasaur',
@@ -150,5 +152,32 @@ describe('pokemonLoadingSelector', () => {
     };
     const result = pokemonLoadingSelector(rootState);
     expect(result).toBeFalsy();
+  });
+});
+
+describe('pokemonPageableSelector', () => {
+  it('with initial state it selects pageable with offset 0 and limit 10', () => {
+    const pokemonState: PokemonState = initialState;
+    const rootState: PokemonFeatureState = {
+      pokemon: pokemonState
+    };
+    const result = pokemonPageableSelector(rootState);
+    expect(result).toEqual(initialState.pageable);
+  });
+
+  it('with a state with pageable with offset 20 and limit 30, it selects pageable with offset 20 and limit 30', () => {
+    const pageable = {
+      offset: 20,
+      limit: 30
+    };
+    const pokemonState: PokemonState = {
+      ...initialState,
+      pageable
+    };
+    const rootState: PokemonFeatureState = {
+      pokemon: pokemonState
+    };
+    const result = pokemonPageableSelector(rootState);
+    expect(result).toEqual(pageable);
   });
 });

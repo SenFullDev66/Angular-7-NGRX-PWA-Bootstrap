@@ -4,17 +4,19 @@ import {
   PokemonFeatureState,
   pokemonListSelector,
   pokemonCountSelector,
-  pokemonLoadingSelector
+  pokemonLoadingSelector,
+  pokemonPageableSelector
 } from '../pokemon.reducer';
 import { LoadPokemons } from '../pokemon.actions';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { PokeApiNamedResource, PokeApiPageable } from '../pokeapi';
 import {
   withLatestFrom,
   map,
   takeWhile,
   take,
-  debounceTime
+  debounceTime,
+  filter
 } from 'rxjs/operators';
 
 @Component({
@@ -29,23 +31,43 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   pokemons$: Observable<PokeApiNamedResource[]>;
   count$: Observable<number>;
-  offset$ = new BehaviorSubject(0);
-  limit$ = new BehaviorSubject(10);
-  page$: Observable<number>;
+  pageable$: Observable<PokeApiPageable>;
+
+  page$ = new BehaviorSubject<number>(1);
+  limit$ = new BehaviorSubject<number>(10);
 
   ngOnInit() {
     this.pokemons$ = this.store$.pipe(select(pokemonListSelector));
     this.count$ = this.store$.pipe(select(pokemonCountSelector));
     this.loading$ = this.store$.pipe(select(pokemonLoadingSelector));
-    this.page$ = this.getPageable().pipe(
-      map(pageable => this.calculatePage(pageable))
+
+    this.pageable$ = this.page$.pipe(
+      withLatestFrom(this.limit$),
+      map(([page, limit]) => ({
+        offset: limit * page - limit,
+        limit
+      })),
+      debounceTime(200)
     );
-    this.getPageable()
+
+    this.store$
       .pipe(
         takeWhile(() => this.mounted),
-        debounceTime(200)
+        select(pokemonPageableSelector),
+        withLatestFrom(this.pageable$)
       )
-      .subscribe(pageable => this.loadPokemons(pageable));
+      .subscribe(([next, current]) => {
+        if (current.limit !== next.limit) {
+          this.limit$.next(next.limit);
+        }
+        if (current.offset !== next.offset) {
+          this.page$.next(this.calculatePage(next));
+        }
+      });
+
+    this.pageable$
+      .pipe(takeWhile(() => this.mounted))
+      .subscribe((pageable: PokeApiPageable) => this.loadPokemons(pageable));
   }
 
   ngOnDestroy() {
@@ -53,18 +75,7 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
   }
 
   setPage(page: number): void {
-    this.getPageable()
-      .pipe(take(1))
-      .subscribe(({ limit }) => {
-        this.offset$.next(page * limit - limit);
-      });
-  }
-
-  getPageable(): Observable<PokeApiPageable> {
-    return this.offset$.pipe(
-      withLatestFrom(this.limit$),
-      map(([offset, limit]) => ({ offset, limit }))
-    );
+    this.page$.next(page);
   }
 
   private loadPokemons(pageable: PokeApiPageable): void {

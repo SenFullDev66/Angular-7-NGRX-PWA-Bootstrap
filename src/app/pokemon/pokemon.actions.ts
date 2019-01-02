@@ -9,7 +9,7 @@ export enum PokemonActionTypes {
 export class LoadPokemons implements Action {
   readonly type = PokemonActionTypes.LoadPokemons;
 
-  constructor(public pageable?: PokeApiPageable) {}
+  constructor(public pageable: PokeApiPageable = { offset: 0, limit: 10 }) {}
 }
 
 export class PokemonsLoaded implements Action {

@@ -4,6 +4,7 @@ import { PokeApiNamedResource, PokeApiPageable } from './pokeapi';
 
 export interface PokemonState {
   loading: boolean;
+  pageable: PokeApiPageable;
   pokemons: PokeApiNamedResource[];
   count: number;
 }
@@ -14,6 +15,10 @@ export interface PokemonFeatureState {
 
 export const initialState: PokemonState = {
   loading: true,
+  pageable: {
+    offset: 0,
+    limit: 10
+  },
   pokemons: [],
   count: 0
 };
@@ -24,7 +29,7 @@ export function reducer(
 ): PokemonState {
   switch (action.type) {
     case PokemonActionTypes.LoadPokemons:
-      return { ...state, loading: true };
+      return { ...state, pageable: { ...action.pageable }, loading: true };
     case PokemonActionTypes.PokemonsLoaded:
       return {
         ...state,
@@ -55,4 +60,9 @@ export const pokemonListSelector = createSelector(
 export const pokemonCountSelector = createSelector(
   pokemonSelector,
   state => state.count
+);
+
+export const pokemonPageableSelector = createSelector(
+  pokemonSelector,
+  state => state.pageable
 );

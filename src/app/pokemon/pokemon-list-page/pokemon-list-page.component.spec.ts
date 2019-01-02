@@ -58,17 +58,6 @@ describe('PokemonListPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('the offset$ observable is 0', done => {
-    component.offset$.pipe(take(1)).subscribe(offset => {
-      try {
-        expect(offset).toBe(0);
-        done();
-      } catch (e) {
-        done.fail(e);
-      }
-    });
-  });
-
   it('the limit$ observable is 10', done => {
     component.limit$.pipe(take(1)).subscribe(limit => {
       try {
@@ -92,19 +81,16 @@ describe('PokemonListPageComponent', () => {
   });
 
   it('the getPageable() observable has offset 0 and limit 10', done => {
-    component
-      .getPageable()
-      .pipe(take(1))
-      .subscribe(pageable => {
-        try {
-          expect(pageable).toBeTruthy();
-          expect(pageable.offset).toBe(0);
-          expect(pageable.limit).toBe(10);
-          done();
-        } catch (e) {
-          done.fail(e);
-        }
-      });
+    component.pageable$.pipe(take(1)).subscribe(pageable => {
+      try {
+        expect(pageable).toBeTruthy();
+        expect(pageable.offset).toBe(0);
+        expect(pageable.limit).toBe(10);
+        done();
+      } catch (e) {
+        done.fail(e);
+      }
+    });
   });
 
   describe('the loading$ observable', () => {
@@ -151,17 +137,6 @@ describe('PokemonListPageComponent', () => {
         component.setPage(2);
       }));
 
-      it('the offset$ observable changes to 10', done => {
-        component.offset$.pipe(take(1)).subscribe(offset => {
-          try {
-            expect(offset).toBe(10);
-            done();
-          } catch (e) {
-            done.fail(e);
-          }
-        });
-      });
-
       it('the limit$ observable keeps 10', done => {
         component.limit$.pipe(take(1)).subscribe(limit => {
           try {
@@ -185,19 +160,16 @@ describe('PokemonListPageComponent', () => {
       });
 
       it('the getPageable() observable changes to offset 10 and limit 10', done => {
-        component
-          .getPageable()
-          .pipe(take(1))
-          .subscribe(pageable => {
-            try {
-              expect(pageable).toBeTruthy();
-              expect(pageable.offset).toBe(10);
-              expect(pageable.limit).toBe(10);
-              done();
-            } catch (e) {
-              done.fail(e);
-            }
-          });
+        component.pageable$.pipe(take(1)).subscribe(pageable => {
+          try {
+            expect(pageable).toBeTruthy();
+            expect(pageable.offset).toBe(10);
+            expect(pageable.limit).toBe(10);
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
       });
     });
   });
