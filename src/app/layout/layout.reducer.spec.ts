@@ -2,7 +2,8 @@ import {
   layoutReducer,
   initialState,
   layoutTitleSelector,
-  layoutSelector
+  layoutSelector,
+  layoutMessagesSelector
 } from './layout.reducer';
 import { LayoutActionTypes, ChangeTitle, PushMessage } from './layout.actions';
 import { Message, Severity } from './layout';

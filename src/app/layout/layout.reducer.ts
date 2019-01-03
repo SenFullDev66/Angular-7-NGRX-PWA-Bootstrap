@@ -46,3 +46,8 @@ export const layoutTitleSelector = createSelector(
   layoutSelector,
   state => state.title
 );
+
+export const layoutMessagesSelector = createSelector(
+  layoutSelector,
+  state => state.messages
+);
