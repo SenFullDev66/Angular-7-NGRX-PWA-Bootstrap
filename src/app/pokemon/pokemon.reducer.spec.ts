@@ -12,9 +12,10 @@ import {
 import {
   PokemonActionTypes,
   LoadPokemons,
-  PokemonsLoaded
+  PokemonsLoaded,
+  LoadFavoritePokemons,
 } from './pokemon.actions';
-import { PokeApiNamedResource, Pokemon } from './pokeapi';
+import { Pokemon } from './pokeapi';
 
 describe('Pokemon Reducer', () => {
   describe('an unknown action', () => {
@@ -60,6 +61,32 @@ describe('Pokemon Reducer', () => {
     it('to a state with pokemons array filled', () => {
       expect(result).toBeTruthy();
       expect(result.pokemons).toEqual(pokemons);
+    });
+  });
+
+  describe(`a "${PokemonActionTypes.LoadFavoritePokemons}" action`, () => {
+    describe('with initial state, it reduce to a state', () => {
+      const action = new LoadFavoritePokemons();
+      let state: PokemonState;
+      let result: PokemonState;
+
+      beforeEach(() => {
+        state = initialState;
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      })
+
+      it('with "loadingFavorites" = "true"', () => {
+        expect(result.loadingFavorites).toBeTruthy();
+      })
+
+      it('with "favoritePokemons" array empty', () => {
+        expect(result.favoritePokemons).toBeTruthy();
+        expect(result.favoritePokemons.length).toBeFalsy();
+      });
     });
   });
 });
