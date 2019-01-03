@@ -41,6 +41,13 @@ export function reducer(
         ...state,
         favoritePokemons: [action.pokemon, ...state.favoritePokemons]
       };
+    case PokemonActionTypes.UnfavoritePokemon:
+      return {
+        ...state,
+        favoritePokemons: state.favoritePokemons.filter(
+          pokemon => pokemon.url !== action.pokemon.url
+        )
+      };
     case PokemonActionTypes.LoadPokemons:
       return { ...state, pageable: { ...action.pageable }, loading: true };
     case PokemonActionTypes.PokemonsLoaded:
