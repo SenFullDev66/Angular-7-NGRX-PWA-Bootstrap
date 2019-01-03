@@ -91,3 +91,8 @@ export const pokemonLoadingFavoritesSelector = createSelector(
   pokemonSelector,
   state => state.loadingFavorites
 );
+
+export const pokemonFavoritesLoadedSelector = createSelector(
+  pokemonSelector,
+  state => state.favoritesLoaded
+);
