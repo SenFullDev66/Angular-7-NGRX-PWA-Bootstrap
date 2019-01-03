@@ -78,11 +78,15 @@ describe('Pokemon Reducer', () => {
 
       it('different from previous state', () => {
         expect(result).not.toBe(state);
-      })
+      });
+
+      it('with "loadedFavorites" = "false"', () => {
+        expect(result.loadedFavorites).toBeFalsy();
+      });
 
       it('with "loadingFavorites" = "true"', () => {
         expect(result.loadingFavorites).toBeTruthy();
-      })
+      });
 
       it('with "favoritePokemons" array empty', () => {
         expect(result.favoritePokemons).toBeTruthy();
@@ -94,24 +98,28 @@ describe('Pokemon Reducer', () => {
     describe('with a state with "loadingFavorites" = "true", it reduce to a state', () => {
       const pokemons: Pokemon[] = [
         new Pokemon('bulbasaur', 'https://pokeapi.co/api/v2/pokemon/1/'),
-        new Pokemon('ivysaur', 'https://pokeapi.co/api/v2/pokemon/2/'),
+        new Pokemon('ivysaur', 'https://pokeapi.co/api/v2/pokemon/2/')
       ];
       const action = new FavoritePokemonsLoaded(pokemons);
       let state: PokemonState;
       let result: PokemonState;
 
       beforeEach(() => {
-        state = {...initialState, loadingFavorites: true};
+        state = { ...initialState, loadingFavorites: true };
         result = reducer(state, action);
       });
 
       it('different from previous state', () => {
         expect(result).not.toBe(state);
-      })
+      });
+
+      it('with "loadedFavorites" = "true"', () => {
+        expect(result.loadedFavorites).toBeTruthy();
+      });
 
       it('with "loadingFavorites" = "false"', () => {
         expect(result.loadingFavorites).toBeFalsy();
-      })
+      });
 
       it('with "favoritePokemons" array filled with 2 pokemons', () => {
         expect(result.favoritePokemons).toBeTruthy();
