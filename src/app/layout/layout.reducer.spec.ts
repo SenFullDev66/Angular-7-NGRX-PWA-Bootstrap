@@ -4,7 +4,7 @@ import {
   layoutTitleSelector,
   layoutSelector
 } from './layout.reducer';
-import { LayoutActionTypes, ChangeTitle } from './layout.actions';
+import { LayoutActionTypes, ChangeTitle, PushMessage } from './layout.actions';
 
 describe('Layout Reducer', () => {
   describe('an unknown action', () => {
@@ -17,7 +17,7 @@ describe('Layout Reducer', () => {
     });
   });
 
-  describe(`an "${LayoutActionTypes.ChangeTitle}" action`, () => {
+  describe(`a "${LayoutActionTypes.ChangeTitle}" action`, () => {
     it('with "Title A" title payload, should reduce state with "Title A" title', () => {
       const action = new ChangeTitle('Title A');
 
@@ -34,6 +34,56 @@ describe('Layout Reducer', () => {
 
       expect(result).not.toBe(initialState);
       expect(result.title).toBe('Title B');
+    });
+  });
+
+  describe(`a "${LayoutActionTypes.PushMessage}" action`, () => {
+    it('with severity "info" and message "Message A", it reduces to a state with the messages array with that message', () => {
+      const action = PushMessage.info('Message A');
+
+      const result = layoutReducer(initialState, action);
+
+      expect(result).not.toBe(initialState);
+      expect(result.messages).toBeTruthy();
+      expect(result.messages.length).toBe(1);
+      expect(result.messages[0].type).toBe('info');
+      expect(result.messages[0].message).toBe('Message A');
+    });
+
+    it('with severity "success" and message "Message B", it reduces to a state with the messages array with that message', () => {
+      const action = PushMessage.success('Message B');
+
+      const result = layoutReducer(initialState, action);
+
+      expect(result).not.toBe(initialState);
+      expect(result.messages).toBeTruthy();
+      expect(result.messages.length).toBe(1);
+      expect(result.messages[0].type).toBe('success');
+      expect(result.messages[0].message).toBe('Message B');
+    });
+
+    it('with severity "warning" and message "Message C", it reduces to a state with the messages array with that message', () => {
+      const action = PushMessage.warning('Message C');
+
+      const result = layoutReducer(initialState, action);
+
+      expect(result).not.toBe(initialState);
+      expect(result.messages).toBeTruthy();
+      expect(result.messages.length).toBe(1);
+      expect(result.messages[0].type).toBe('warning');
+      expect(result.messages[0].message).toBe('Message C');
+    });
+
+    it('with severity "danger" and message "Message D", it reduces to a state with the messages array with that message', () => {
+      const action = PushMessage.danger('Message D');
+
+      const result = layoutReducer(initialState, action);
+
+      expect(result).not.toBe(initialState);
+      expect(result.messages).toBeTruthy();
+      expect(result.messages.length).toBe(1);
+      expect(result.messages[0].type).toBe('danger');
+      expect(result.messages[0].message).toBe('Message D');
     });
   });
 });
@@ -59,7 +109,7 @@ describe('layoutTitleSelector', () => {
   it('with a state with "Title B" title it selects "Title B"', () => {
     const title = 'Title B';
 
-    const rootState = { layout: { title } };
+    const rootState = { layout: { ...initialState, title } };
 
     const result = layoutTitleSelector(rootState);
 
