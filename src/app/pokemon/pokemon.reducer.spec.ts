@@ -19,7 +19,8 @@ import {
   PokemonsLoaded,
   LoadFavoritePokemons,
   FavoritePokemonsLoaded,
-  FavoritePokemon
+  FavoritePokemon,
+  UnfavoritePokemon
 } from './pokemon.actions';
 import { Pokemon, PokeApiPageable } from './pokeapi';
 import { POKEMONS_MOCK } from './pokemon.service.spec';
@@ -188,6 +189,48 @@ describe('Pokemon Reducer', () => {
 
       it('with a pokemon named "venusaur" as favorite', () => {
         expect(result.favoritePokemons[0].name).toBe('venusaur');
+      });
+    });
+  });
+
+  describe(`a "${PokemonActionTypes.UnfavoritePokemon}" action`, () => {
+    describe('with a state with two favorite pokemons, it reduce to a state', () => {
+      let state: PokemonState;
+      let action: UnfavoritePokemon;
+      let result: PokemonState;
+      beforeEach(() => {
+        state = {
+          ...initialState,
+          favoritePokemons: [
+            new Pokemon(
+              'bulbasaur',
+              'http://pokeapi.salestock.net/api/v2/pokemon/1/'
+            ),
+            new Pokemon(
+              'ivysaur',
+              'http://pokeapi.salestock.net/api/v2/pokemon/2/'
+            )
+          ]
+        };
+        action = new UnfavoritePokemon(
+          new Pokemon(
+            'bulbasaur',
+            'http://pokeapi.salestock.net/api/v2/pokemon/1/'
+          )
+        );
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      });
+
+      it('with "favoritePokemons" array with length 1', () => {
+        expect(result.favoritePokemons.length).toBe(1);
+      });
+
+      it('with the first favorite pokemon named "ivysaur"', () => {
+        expect(result.favoritePokemons[0].name).toBe('ivysaur');
       });
     });
   });
