@@ -81,8 +81,8 @@ describe('Pokemon Reducer', () => {
         expect(result).not.toBe(state);
       });
 
-      it('with "loadedFavorites" = "false"', () => {
-        expect(result.loadedFavorites).toBeFalsy();
+      it('with "favoritesLoaded" = "false"', () => {
+        expect(result.favoritesLoaded).toBeFalsy();
       });
 
       it('with "loadingFavorites" = "true"', () => {
@@ -114,8 +114,8 @@ describe('Pokemon Reducer', () => {
         expect(result).not.toBe(state);
       });
 
-      it('with "loadedFavorites" = "true"', () => {
-        expect(result.loadedFavorites).toBeTruthy();
+      it('with "favoritesLoaded" = "true"', () => {
+        expect(result.favoritesLoaded).toBeTruthy();
       });
 
       it('with "loadingFavorites" = "false"', () => {

@@ -8,7 +8,7 @@ export interface PokemonState {
   pokemons: Pokemon[];
   count: number;
 
-  loadedFavorites: boolean;
+  favoritesLoaded: boolean;
   loadingFavorites: boolean;
   favoritePokemons: Pokemon[];
 }
@@ -26,7 +26,7 @@ export const initialState: PokemonState = {
   pokemons: [],
   count: 0,
 
-  loadedFavorites: false,
+  favoritesLoaded: false,
   loadingFavorites: false,
   favoritePokemons: []
 };
@@ -54,7 +54,7 @@ export function reducer(
       return {
         ...state,
         favoritePokemons: action.favoritePokemons,
-        loadedFavorites: true,
+        favoritesLoaded: true,
         loadingFavorites: false
       };
     default:
