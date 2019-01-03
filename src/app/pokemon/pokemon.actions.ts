@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { PokeApiPageable, Pokemon } from './pokeapi';
 
 export enum PokemonActionTypes {
+  FavoritePokemon = '[Pokemon] Favorite pokemon',
   LoadPokemons = '[Pokemon] Load Pokemons',
   PokemonsLoaded = '[Pokemon] Pokemons loaded',
   LoadFavoritePokemons = '[Pokemon] Load favorite pokemons',
@@ -30,7 +31,14 @@ export class FavoritePokemonsLoaded implements Action {
   constructor(public favoritePokemons: Pokemon[]) {}
 }
 
+export class FavoritePokemon implements Action {
+  readonly type = PokemonActionTypes.FavoritePokemon;
+
+  constructor(public pokemon: Pokemon) {}
+}
+
 export type PokemonActions =
+  | FavoritePokemon
   | LoadPokemons
   | PokemonsLoaded
   | LoadFavoritePokemons
