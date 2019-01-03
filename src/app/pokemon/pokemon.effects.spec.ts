@@ -9,7 +9,8 @@ import {
   LoadPokemons,
   PokemonsLoaded,
   LoadFavoritePokemons,
-  FavoritePokemon
+  FavoritePokemon,
+  UnfavoritePokemon
 } from './pokemon.actions';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PokemonServiceStub, POKEMONS_MOCK } from './pokemon.service.spec';
@@ -224,6 +225,72 @@ describe('PokemonEffects', () => {
               expect(effect.message.type).toBe(Severity.SUCCESS);
               expect(effect.message.message).toBe(
                 'Pokemon "bulbasaur" favorited'
+              );
+              done();
+            } catch (e) {
+              done.fail(e);
+            }
+          });
+      });
+    });
+  });
+
+  describe(`on "${PokemonActionTypes.UnfavoritePokemon}" action`, () => {
+    let pokemon: Pokemon;
+
+    beforeEach(() => {
+      pokemon = new Pokemon(
+        'bulbasaur',
+        'http://pokeapi.salestock.net/api/v2/pokemon/1/'
+      );
+      window.localStorage.setItem(
+        PokemonService.FAVORITE_POKEMONS_KEY,
+        JSON.stringify([pokemon])
+      );
+      actions$.next(new UnfavoritePokemon(pokemon));
+    });
+
+    it('it remove the pokemon from localStorage favorite pokemons', done => {
+      effects.onUnfavoritePokemon
+        .pipe(take(1))
+        .subscribe((effect: PushMessage) => {
+          try {
+            const favoritePokemons = window.localStorage.getItem(
+              PokemonService.FAVORITE_POKEMONS_KEY
+            );
+            expect(favoritePokemons).toBeTruthy();
+            expect(favoritePokemons).toBe(JSON.stringify([]));
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
+    });
+
+    describe('it effects to an action', () => {
+      it(`with "${LayoutActionTypes.PushMessage}" type`, done => {
+        effects.onUnfavoritePokemon
+          .pipe(take(1))
+          .subscribe((effect: PushMessage) => {
+            try {
+              expect(effect).toBeTruthy();
+              expect(effect.type).toBe(LayoutActionTypes.PushMessage);
+              done();
+            } catch (e) {
+              done.fail(e);
+            }
+          });
+      });
+
+      it(`with a success type message: Pokemon "bulbasaur" favorited`, done => {
+        effects.onUnfavoritePokemon
+          .pipe(take(1))
+          .subscribe((effect: PushMessage) => {
+            try {
+              expect(effect).toBeTruthy();
+              expect(effect.message.type).toBe(Severity.SUCCESS);
+              expect(effect.message.message).toBe(
+                'Pokemon "bulbasaur" removed from favorites'
               );
               done();
             } catch (e) {
