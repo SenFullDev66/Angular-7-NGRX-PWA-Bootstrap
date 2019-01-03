@@ -3,7 +3,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   PokemonActionTypes,
   PokemonsLoaded,
-  LoadPokemons
+  LoadPokemons,
+  LoadFavoritePokemons,
+  FavoritePokemonsLoaded
 } from './pokemon.actions';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { PokemonService } from './pokemon.service';
@@ -33,5 +35,12 @@ export class PokemonEffects {
     catchError((error: HttpErrorResponse) =>
       of(PushMessage.danger(error.statusText))
     )
+  );
+
+  @Effect()
+  onLoadFavoritePokemons = this.actions$.pipe(
+    ofType(PokemonActionTypes.LoadFavoritePokemons),
+    mergeMap(() => this.pokemonService.restoreFavorites()),
+    map(favoritePokemons => new FavoritePokemonsLoaded(favoritePokemons))
   );
 }
