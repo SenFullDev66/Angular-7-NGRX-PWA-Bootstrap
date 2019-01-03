@@ -4,8 +4,8 @@ import {
   PokemonActionTypes,
   PokemonsLoaded,
   LoadPokemons,
-  LoadFavoritePokemons,
-  FavoritePokemonsLoaded
+  FavoritePokemonsLoaded,
+  FavoritePokemon
 } from './pokemon.actions';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { PokemonService } from './pokemon.service';
@@ -42,5 +42,14 @@ export class PokemonEffects {
     ofType(PokemonActionTypes.LoadFavoritePokemons),
     mergeMap(() => this.pokemonService.restoreFavorites()),
     map(favoritePokemons => new FavoritePokemonsLoaded(favoritePokemons))
+  );
+
+  @Effect()
+  onFavoritePokemon = this.actions$.pipe(
+    ofType(PokemonActionTypes.FavoritePokemon),
+    map(({ pokemon }: FavoritePokemon) => {
+      this.pokemonService.storeFavorites([pokemon]);
+      return PushMessage.success(`Pokemon "${pokemon.name}" favorited`);
+    })
   );
 }
