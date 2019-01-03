@@ -174,9 +174,9 @@ describe('PokemonService', () => {
       const pokemons = [pokemon];
       window.localStorage.setItem(
         PokemonService.FAVORITE_POKEMONS_KEY,
-        JSON.stringify(pokemon)
+        JSON.stringify(pokemons)
       );
-      service.removeFromFavorites({ ...pokemon });
+      service.removeFromFavorites(pokemon);
       expect(stored()).toBe(JSON.stringify([]));
     });
   });
