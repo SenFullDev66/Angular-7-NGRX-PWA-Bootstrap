@@ -86,3 +86,8 @@ export const pokemonPageableSelector = createSelector(
   pokemonSelector,
   state => state.pageable
 );
+
+export const pokemonLoadingFavoritesSelector = createSelector(
+  pokemonSelector,
+  state => state.loadingFavorites
+);
