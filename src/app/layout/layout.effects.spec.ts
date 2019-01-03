@@ -31,6 +31,7 @@ describe('LayoutEffects', () => {
 
   describe(`on "${LayoutActionTypes.PushMessage}" action dispatch`, () => {
     it(`it effects to "${LayoutActionTypes.CloseMessage} action"`, done => {
+      LayoutEffects.delayTime = 100;
       const message: Message = { type: Severity.INFO, message: 'Message A' };
       const action = new PushMessage(message);
       actions$.next(action);
