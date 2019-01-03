@@ -5,7 +5,12 @@ import {
   layoutSelector,
   layoutMessagesSelector
 } from './layout.reducer';
-import { LayoutActionTypes, ChangeTitle, PushMessage } from './layout.actions';
+import {
+  LayoutActionTypes,
+  ChangeTitle,
+  PushMessage,
+  CloseMessage
+} from './layout.actions';
 import { Message, Severity } from './layout';
 
 describe('Layout Reducer', () => {
@@ -86,6 +91,36 @@ describe('Layout Reducer', () => {
       expect(result.messages.length).toBe(1);
       expect(result.messages[0].type).toBe('danger');
       expect(result.messages[0].message).toBe('Message D');
+    });
+  });
+
+  describe(`a "${LayoutActionTypes.CloseMessage}" action`, () => {
+    it('it removes from array the message of same INSTANCE of the message of the action', () => {
+      const message: Message = { type: Severity.SUCCESS, message: 'Message E' };
+
+      const action = new CloseMessage(message);
+      const state = { ...initialState, messages: [message] };
+
+      const result = layoutReducer(state, action);
+
+      expect(result).not.toBe(state);
+      expect(result.messages).not.toBe(state.messages);
+      expect(result.messages.length).toBe(0);
+    });
+
+    it('with a message of a different instance with same parameters, it does not removes any message', () => {
+      const message: Message = { type: Severity.DANGER, message: 'Message F' };
+
+      const action = new CloseMessage({ ...message });
+      const state = { ...initialState, messages: [message] };
+
+      const result = layoutReducer(state, action);
+
+      expect(result).not.toBe(state);
+      expect(result.messages).not.toBe(state.messages);
+      expect(result.messages.length).toBe(1);
+      expect(result.messages[0]).toBe(message);
+      expect(result.messages[0]).not.toBe(action.message);
     });
   });
 });
