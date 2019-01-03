@@ -29,6 +29,11 @@ export function layoutReducer(
         ...state,
         messages: [...state.messages, action.message]
       };
+    case LayoutActionTypes.CloseMessage:
+      return {
+        ...state,
+        messages: state.messages.filter(message => action.message !== message)
+      };
     default:
       return state;
   }
