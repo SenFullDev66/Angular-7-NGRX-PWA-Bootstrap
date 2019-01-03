@@ -13,7 +13,7 @@ import {
   Pokemon
 } from './pokeapi';
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { take } from 'rxjs/operators';
 
 describe('PokemonService', () => {
   let service: PokemonService;
@@ -82,6 +82,76 @@ describe('PokemonService', () => {
       });
 
       mock.stub();
+    });
+  });
+
+  describe('restoreFavorites function', () => {
+    beforeEach(() => {
+      window.localStorage.removeItem(PokemonService.FAVORITE_POKEMONS_KEY);
+    });
+
+    it('when the localStorage entry does not exists, it restore a empty array', done => {
+      service
+        .restoreFavorites()
+        .pipe(take(1))
+        .subscribe(favorites => {
+          try {
+            expect(favorites).toEqual([]);
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
+    });
+
+    it('when the localStorage has a entry with 50 pokemons, it restore a array with 50 pokemons', done => {
+      window.localStorage.setItem(
+        PokemonService.FAVORITE_POKEMONS_KEY,
+        JSON.stringify(POKEMONS_MOCK)
+      );
+      service
+        .restoreFavorites()
+        .pipe(take(1))
+        .subscribe(favorites => {
+          try {
+            expect(favorites).toBeTruthy();
+            expect(favorites.length).toBe(50);
+            expect(favorites[0].name).toBe('bulbasaur');
+            expect(favorites[49].name).toBe('diglett');
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
+    });
+  });
+
+  describe('storeFavorites function', () => {
+    beforeEach(() => {
+      window.localStorage.removeItem(PokemonService.FAVORITE_POKEMONS_KEY);
+    });
+
+    const stored = () =>
+      window.localStorage.getItem(PokemonService.FAVORITE_POKEMONS_KEY);
+
+    it('when the localStorage entry does not exists, it includes the entry', () => {
+      expect(stored()).toBeFalsy();
+      service.storeFavorites(POKEMONS_MOCK);
+      expect(stored()).toBeTruthy();
+      expect(stored()).toEqual(JSON.stringify(POKEMONS_MOCK));
+    });
+
+    it('when the localStorage entry exists, it overrides that entry', () => {
+      const initial = POKEMONS_MOCK.slice(0, 10);
+      const initialStr = JSON.stringify(initial);
+      window.localStorage.setItem(
+        PokemonService.FAVORITE_POKEMONS_KEY,
+        initialStr
+      );
+      expect(stored()).toBe(initialStr);
+      service.storeFavorites(POKEMONS_MOCK);
+      expect(stored()).toBeTruthy();
+      expect(stored()).toEqual(JSON.stringify(POKEMONS_MOCK));
     });
   });
 });
