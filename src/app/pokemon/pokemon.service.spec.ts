@@ -141,17 +141,17 @@ describe('PokemonService', () => {
       expect(stored()).toEqual(JSON.stringify(POKEMONS_MOCK));
     });
 
-    it('when the localStorage entry exists, it overrides that entry', () => {
+    it('when the localStorage entry exists, it appends the pokemons to that entry', () => {
       const initial = POKEMONS_MOCK.slice(0, 10);
       const initialStr = JSON.stringify(initial);
       window.localStorage.setItem(
         PokemonService.FAVORITE_POKEMONS_KEY,
         initialStr
       );
-      expect(stored()).toBe(initialStr);
-      service.storeFavorites(POKEMONS_MOCK);
+      const pokemons = POKEMONS_MOCK.slice(10, 20);
+      service.storeFavorites(pokemons);
       expect(stored()).toBeTruthy();
-      expect(stored()).toEqual(JSON.stringify(POKEMONS_MOCK));
+      expect(stored()).toEqual(JSON.stringify([...pokemons, ...initial]));
     });
   });
 });

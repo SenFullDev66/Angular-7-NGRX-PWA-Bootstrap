@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PokeApiPokemonList, PokeApiPageable, Pokemon } from './pokeapi';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Injectable()
 export class PokemonService {
@@ -26,9 +26,13 @@ export class PokemonService {
   }
 
   storeFavorites(pokemons: Pokemon[]) {
-    window.localStorage.setItem(
-      PokemonService.FAVORITE_POKEMONS_KEY,
-      JSON.stringify(pokemons)
-    );
+    this.restoreFavorites()
+      .pipe(take(1))
+      .subscribe(favoritePokemons => {
+        window.localStorage.setItem(
+          PokemonService.FAVORITE_POKEMONS_KEY,
+          JSON.stringify([...pokemons, ...favoritePokemons])
+        );
+      });
   }
 }
