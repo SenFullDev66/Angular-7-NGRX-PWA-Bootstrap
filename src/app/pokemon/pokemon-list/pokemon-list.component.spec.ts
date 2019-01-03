@@ -4,7 +4,7 @@ import { PokemonListComponent } from './pokemon-list.component';
 import { of } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { PokeApiNamedResource, Pokemon } from '../pokeapi';
-import { take } from 'rxjs/operators';
+import { take, first } from 'rxjs/operators';
 
 describe('PokemonListComponent', () => {
   let component: PokemonListComponent;
@@ -46,11 +46,16 @@ describe('PokemonListComponent', () => {
   });
 
   describe('with @Input() pokemons observable', () => {
-    describe('resolved to a array with one pokemon', () => {
+    describe('resolved to a array with two pokemons', () => {
       let pokemons: Pokemon[];
       beforeEach(() => {
         pokemons = [
-          new Pokemon('bulbasaur', 'https://pokeapi.co/api/v2/pokemon/1/')
+          new Pokemon(
+            'bulbasaur',
+            'https://pokeapi.co/api/v2/pokemon/1/',
+            false
+          ),
+          new Pokemon('ivysaur', 'https://pokeapi.co/api/v2/pokemon/2/', true)
         ];
         component.pokemons$ = of(pokemons);
         fixture.detectChanges();
@@ -81,49 +86,110 @@ describe('PokemonListComponent', () => {
         expect(body).toBeTruthy();
       });
 
-      it('the table body has one row', () => {
+      it('the table body has two rows', () => {
         const rows: HTMLElement[] = fixture.nativeElement.querySelectorAll(
           'table.table > tbody > tr'
         );
         expect(rows).toBeTruthy();
-        expect(rows.length).toBe(1);
+        expect(rows.length).toBe(2);
       });
 
-      describe('the table row', () => {
-        let columns: HTMLElement[];
-
+      describe('and the table body', () => {
+        let firstRowColumns: NodeListOf<HTMLTableCellElement>;
+        let secondRowColumns: NodeListOf<HTMLTableCellElement>;
+        let rows: HTMLTableRowElement[];
         beforeEach(() => {
-          columns = fixture.nativeElement.querySelectorAll(
-            'table.table > tbody > tr > td'
+          rows = fixture.nativeElement.querySelectorAll(
+            'table.table > tbody > tr'
           );
+          firstRowColumns = rows[0].querySelectorAll('td');
+          secondRowColumns = rows[1].querySelectorAll('td');
         });
 
-        it('has 3 columns', () => {
-          expect(columns).toBeTruthy();
-          expect(columns.length).toBe(3);
+        describe('first row', () => {
+          it('has 3 columns', () => {
+            expect(firstRowColumns).toBeTruthy();
+            expect(firstRowColumns.length).toBe(3);
+          });
+
+          it('its first column has a image of the pokemon', () => {
+            const column = firstRowColumns[0];
+            expect(column).toBeTruthy();
+            const image: HTMLImageElement = column.querySelector('img');
+            expect(image).toBeTruthy();
+            expect(image.src).toBe(pokemons[0].imageSrc);
+          });
+
+          it('its second column value is "bulbasaur"', () => {
+            const column = firstRowColumns[1];
+            expect(column).toBeTruthy();
+            expect(column.textContent).toBe('bulbasaur');
+          });
+
+          it('its third column has a "View" button', () => {
+            const column = firstRowColumns[2];
+            expect(column).toBeTruthy();
+
+            const buttons: NodeListOf<
+              HTMLButtonElement
+            > = column.querySelectorAll('button');
+            expect(buttons.length).toBe(2);
+            expect(buttons[0].textContent.trim()).toBe('View');
+          });
+
+          it('the third column has a "Favorite" button', () => {
+            const column = firstRowColumns[2];
+            expect(column).toBeTruthy();
+
+            const buttons: NodeListOf<
+              HTMLButtonElement
+            > = column.querySelectorAll('button');
+            expect(buttons.length).toBe(2);
+            expect(buttons[1].textContent.trim()).toBe('Favorite');
+          });
         });
 
-        it('its first column has a image of the pokemon', () => {
-          const column = columns[0];
-          expect(column).toBeTruthy();
-          const image: HTMLImageElement = column.querySelector('img');
-          expect(image).toBeTruthy();
-          expect(image.src).toBe(pokemons[0].imageSrc);
-        });
+        describe('second row', () => {
+          it('has 3 columns', () => {
+            expect(secondRowColumns).toBeTruthy();
+            expect(secondRowColumns.length).toBe(3);
+          });
 
-        it('its second column value is "bulbasaur"', () => {
-          const column = columns[1];
-          expect(column).toBeTruthy();
-          expect(column.textContent).toBe('bulbasaur');
-        });
+          it('its first column has a image of the pokemon', () => {
+            const column = secondRowColumns[0];
+            expect(column).toBeTruthy();
+            const image: HTMLImageElement = column.querySelector('img');
+            expect(image).toBeTruthy();
+            expect(image.src).toBe(pokemons[1].imageSrc);
+          });
 
-        it('its third column has a view button', () => {
-          const column = columns[2];
-          expect(column).toBeTruthy();
+          it('its second column value is "ivysaur"', () => {
+            const column = secondRowColumns[1];
+            expect(column).toBeTruthy();
+            expect(column.textContent).toBe('ivysaur');
+          });
 
-          const button = column.querySelector('button');
-          expect(button).toBeTruthy();
-          expect(button.textContent.trim()).toBe('View');
+          it('its third column has a "View" button', () => {
+            const column = secondRowColumns[2];
+            expect(column).toBeTruthy();
+
+            const buttons: NodeListOf<
+              HTMLButtonElement
+            > = column.querySelectorAll('button');
+            expect(buttons.length).toBe(2);
+            expect(buttons[0].textContent.trim()).toBe('View');
+          });
+
+          it('the third column has a "Unfavorite" button', () => {
+            const column = secondRowColumns[2];
+            expect(column).toBeTruthy();
+
+            const buttons: NodeListOf<
+              HTMLButtonElement
+            > = column.querySelectorAll('button');
+            expect(buttons.length).toBe(2);
+            expect(buttons[1].textContent.trim()).toBe('Unfavorite');
+          });
         });
       });
     });
