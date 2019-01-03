@@ -5,6 +5,7 @@ import {
   layoutSelector
 } from './layout.reducer';
 import { LayoutActionTypes, ChangeTitle, PushMessage } from './layout.actions';
+import { Message, Severity } from './layout';
 
 describe('Layout Reducer', () => {
   describe('an unknown action', () => {
@@ -114,5 +115,31 @@ describe('layoutTitleSelector', () => {
     const result = layoutTitleSelector(rootState);
 
     expect(result).toBe(title);
+  });
+});
+
+describe('layoutMessagesSelector', () => {
+  it('with initial state, it selects a empty array', () => {
+    const rootState = { layout: { ...initialState } };
+
+    const result = layoutMessagesSelector(rootState);
+
+    expect(result).toBeTruthy();
+    expect(result.length).toBe(0);
+  });
+
+  it('with a state with a message of severity "info" and message "Message A", it selects a message array with that message', () => {
+    const message: Message = {
+      type: Severity.INFO,
+      message: 'Message A'
+    };
+
+    const rootState = { layout: { ...initialState, messages: [message] } };
+
+    const result = layoutMessagesSelector(rootState);
+
+    expect(result).toBeTruthy();
+    expect(result.length).toBe(1);
+    expect(result[0]).toBe(message);
   });
 });
