@@ -3,6 +3,7 @@ import { PokeApiPageable, Pokemon } from './pokeapi';
 
 export enum PokemonActionTypes {
   FavoritePokemon = '[Pokemon] Favorite pokemon',
+  UnfavoritePokemon = '[Pokemon] Unfavorite pokemon',
   LoadPokemons = '[Pokemon] Load Pokemons',
   PokemonsLoaded = '[Pokemon] Pokemons loaded',
   LoadFavoritePokemons = '[Pokemon] Load favorite pokemons',
@@ -37,8 +38,15 @@ export class FavoritePokemon implements Action {
   constructor(public pokemon: Pokemon) {}
 }
 
+export class UnfavoritePokemon implements Action {
+  readonly type = PokemonActionTypes.UnfavoritePokemon;
+
+  constructor(public pokemon: Pokemon) {}
+}
+
 export type PokemonActions =
   | FavoritePokemon
+  | UnfavoritePokemon
   | LoadPokemons
   | PokemonsLoaded
   | LoadFavoritePokemons
