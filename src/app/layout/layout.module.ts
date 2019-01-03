@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LayoutEffects } from './layout.effects';
 import { PageComponent } from './page/page.component';
 import { MessageComponent } from './message/message.component';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const layoutModuleDeclarations = [
   LayoutComponent,
@@ -16,7 +17,8 @@ export const layoutModuleDeclarations = [
 
 export const layoutModuleImports = [
   StoreModule.forFeature('layout', fromLayout.layoutReducer),
-  EffectsModule.forFeature([LayoutEffects])
+  EffectsModule.forFeature([LayoutEffects]),
+  NgbAlertModule
 ];
 
 @NgModule({
