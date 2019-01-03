@@ -1,12 +1,16 @@
-import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
-import { PokeApiNamedResource, PokeApiPageable, Pokemon } from './pokeapi';
+import { PokeApiPageable, Pokemon } from './pokeapi';
 
 export interface PokemonState {
   loading: boolean;
   pageable: PokeApiPageable;
   pokemons: Pokemon[];
   count: number;
+
+  loadedFavorites: boolean;
+  loadingFavorites: boolean;
+  favoritePokemons: Pokemon[];
 }
 
 export interface PokemonFeatureState {
@@ -20,7 +24,11 @@ export const initialState: PokemonState = {
     limit: 10
   },
   pokemons: [],
-  count: 0
+  count: 0,
+
+  loadedFavorites: false,
+  loadingFavorites: false,
+  favoritePokemons: []
 };
 
 export function reducer(
@@ -36,6 +44,11 @@ export function reducer(
         loading: false,
         pokemons: action.pokemons,
         count: action.count
+      };
+    case PokemonActionTypes.LoadFavoritePokemons:
+      return {
+        ...state,
+        loadingFavorites: true
       };
     default:
       return state;
