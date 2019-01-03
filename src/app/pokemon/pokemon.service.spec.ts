@@ -131,9 +131,6 @@ describe('PokemonService', () => {
       window.localStorage.removeItem(PokemonService.FAVORITE_POKEMONS_KEY);
     });
 
-    const stored = () =>
-      window.localStorage.getItem(PokemonService.FAVORITE_POKEMONS_KEY);
-
     it('when the localStorage entry does not exists, it includes the entry', () => {
       expect(stored()).toBeFalsy();
       service.storeFavorites(POKEMONS_MOCK);
@@ -154,7 +151,39 @@ describe('PokemonService', () => {
       expect(stored()).toEqual(JSON.stringify([...pokemons, ...initial]));
     });
   });
+
+  describe('removeFromFavorites function', () => {
+    beforeEach(() => {
+      window.localStorage.removeItem(PokemonService.FAVORITE_POKEMONS_KEY);
+    });
+
+    it('when the localStorage entry does not exists, no error are thrown', () => {
+      const pokemon = new Pokemon(
+        'bulbasaur',
+        'http://pokeapi.salestock.net/api/v2/pokemon/1/'
+      );
+      service.removeFromFavorites(pokemon);
+      expect(stored()).toBeFalsy();
+    });
+
+    it('when the localStorage entry has one pokemon, it removes its pokemon from the array', () => {
+      const pokemon = new Pokemon(
+        'bulbasaur',
+        'http://pokeapi.salestock.net/api/v2/pokemon/1/'
+      );
+      const pokemons = [pokemon];
+      window.localStorage.setItem(
+        PokemonService.FAVORITE_POKEMONS_KEY,
+        JSON.stringify(pokemon)
+      );
+      service.removeFromFavorites({ ...pokemon });
+      expect(stored()).toBe(JSON.stringify([]));
+    });
+  });
 });
+
+const stored = () =>
+  window.localStorage.getItem(PokemonService.FAVORITE_POKEMONS_KEY);
 
 export const POKEMONS_MOCK = [
   new Pokemon('bulbasaur', 'http://pokeapi.salestock.net/api/v2/pokemon/1/'),
