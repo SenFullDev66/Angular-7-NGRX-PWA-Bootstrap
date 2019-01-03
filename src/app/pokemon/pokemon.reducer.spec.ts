@@ -8,7 +8,8 @@ import {
   pokemonCountSelector,
   pokemonLoadingSelector,
   pokemonPageableSelector,
-  pokemonLoadingFavoritesSelector
+  pokemonLoadingFavoritesSelector,
+  pokemonFavoritesLoadedSelector
 } from './pokemon.reducer';
 import {
   PokemonActionTypes,
@@ -254,6 +255,22 @@ describe('pokemonLoadingFavoritesSelector', () => {
     const pokemonState = { ...initialState, loadingFavorites: true };
     const rootState = { pokemon: pokemonState };
     const result = pokemonLoadingFavoritesSelector(rootState);
+    expect(result).toBe(true);
+  });
+});
+
+describe('pokemonFavoritesLoadedSelector', () => {
+  it('with initial state, it selects "false"', () => {
+    const pokemonState = initialState;
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoritesLoadedSelector(rootState);
+    expect(result).toBe(false);
+  });
+
+  it('with state with "favoritesLoaded" = "true", it selects "true"', () => {
+    const pokemonState = { ...initialState, favoritesLoaded: true };
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoritesLoadedSelector(rootState);
     expect(result).toBe(true);
   });
 });
