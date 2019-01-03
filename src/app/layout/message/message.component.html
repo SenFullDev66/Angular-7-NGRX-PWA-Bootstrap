@@ -1,3 +1,7 @@
-<p>
-  message works!
-</p>
+<div class="messages" *ngIf="(messages$ | async) as messages">
+  <p *ngFor="let message of messages; let i = index">
+    <ngb-alert [type]="message.type" (close)="close(message)">
+      <span class="message" [attr.data-index]="i">{{ message.message }}</span>
+    </ngb-alert>
+  </p>
+</div>
