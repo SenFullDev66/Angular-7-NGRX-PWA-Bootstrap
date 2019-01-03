@@ -1,3 +1,31 @@
-<p>
-  pokemon-favorite-list-page works!
-</p>
+<app-page title="Favorite pokemons">
+  <div *ngIf="!(loading$ | async) && (loaded$ | async); else loading">
+    <ngb-pagination
+      *ngIf="(count$ | async) as count"
+      [collectionSize]="count"
+      [page]="page$ | async"
+      (pageChange)="setPage($event)"
+      [maxSize]="5"
+      [pageSize]="limit$ | async"
+      [boundaryLinks]="true"
+      [ellipses]="false"
+      [rotate]="true"
+    ></ngb-pagination>
+    <app-pokemon-list
+      [pokemons$]="pokemons$"
+      (pokemonClick)="handlePokemonClick($event)"
+    ></app-pokemon-list>
+    <ngb-pagination
+      *ngIf="(count$ | async) as count"
+      [collectionSize]="count"
+      [page]="page$ | async"
+      (pageChange)="setPage($event)"
+      [maxSize]="5"
+      [pageSize]="limit$ | async"
+      [boundaryLinks]="true"
+      [ellipses]="false"
+      [rotate]="true"
+    ></ngb-pagination>
+  </div>
+  <ng-template #loading>Loading pokemons...</ng-template>
+</app-page>
