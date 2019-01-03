@@ -10,7 +10,8 @@ import {
   pokemonPageableSelector,
   pokemonLoadingFavoritesSelector,
   pokemonFavoritesLoadedSelector,
-  pokemonFavoritePokemonsSelector
+  pokemonFavoritePokemonsSelector,
+  pokemonFavoriteCountSelector
 } from './pokemon.reducer';
 import {
   PokemonActionTypes,
@@ -320,5 +321,21 @@ describe('pokemonFavoritePokemonsSelector', () => {
       expect(result[0].name).toBe('bulbasaur');
       expect(result[19].name).toBe('raticate');
     });
+  });
+});
+
+describe('pokemonFavoriteCountSelector', () => {
+  it('with initial state it selects zero', () => {
+    const pokemonState = initialState;
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoriteCountSelector(rootState);
+    expect(result).toBe(0);
+  });
+
+  it('with a state with 50 favorite pokemons, it selects 50', () => {
+    const pokemonState = { ...initialState, favoritePokemons: POKEMONS_MOCK };
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoriteCountSelector(rootState);
+    expect(result).toBe(50);
   });
 });
