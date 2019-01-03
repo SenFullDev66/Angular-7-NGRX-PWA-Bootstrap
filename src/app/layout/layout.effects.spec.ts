@@ -42,7 +42,7 @@ describe('LayoutEffects', () => {
           expect(result.message).toBe(message);
           done();
         } catch (e) {
-          done.fail();
+          done.fail(e);
         }
       });
     });
