@@ -36,6 +36,11 @@ export function reducer(
   action: PokemonActions
 ): PokemonState {
   switch (action.type) {
+    case PokemonActionTypes.FavoritePokemon:
+      return {
+        ...state,
+        favoritePokemons: [action.pokemon, ...state.favoritePokemons]
+      };
     case PokemonActionTypes.LoadPokemons:
       return { ...state, pageable: { ...action.pageable }, loading: true };
     case PokemonActionTypes.PokemonsLoaded:
