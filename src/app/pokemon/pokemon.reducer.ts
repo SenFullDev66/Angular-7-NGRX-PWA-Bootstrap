@@ -86,7 +86,15 @@ export const pokemonLoadingSelector = createSelector(
 
 export const pokemonListSelector = createSelector(
   pokemonSelector,
-  state => state.pokemons
+  ({ pokemons, favoritePokemons }) =>
+    pokemons.map(
+      ({ name, url }) =>
+        new Pokemon(
+          name,
+          url,
+          !!favoritePokemons.find(({ url: favUrl }) => favUrl === url)
+        )
+    )
 );
 
 export const pokemonCountSelector = createSelector(
@@ -112,7 +120,9 @@ export const pokemonFavoritesLoadedSelector = createSelector(
 export const pokemonFavoritePokemonsSelector = createSelector(
   pokemonSelector,
   (state, { offset, limit }: PokeApiPageable) =>
-    state.favoritePokemons.slice(offset, offset + limit)
+    state.favoritePokemons
+      .slice(offset, offset + limit)
+      .map(({ name, url }) => new Pokemon(name, url, true))
 );
 
 export const pokemonFavoriteCountSelector = createSelector(

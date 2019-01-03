@@ -10,7 +10,7 @@ import {
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { Pokemon } from '../pokeapi';
 import { map, mergeMap, takeWhile, filter, take } from 'rxjs/operators';
-import { LoadFavoritePokemons } from '../pokemon.actions';
+import { LoadFavoritePokemons, UnfavoritePokemon } from '../pokemon.actions';
 
 @Component({
   selector: 'app-pokemon-favorite-list-page',
@@ -63,5 +63,9 @@ export class PokemonFavoriteListPageComponent implements OnInit, OnDestroy {
 
   handlePokemonClick(pokemon: Pokemon) {
     console.log('Clicked to view favorite pokemon', pokemon);
+  }
+
+  handleSwitchFavoriteClick(pokemon: Pokemon) {
+    this.store$.dispatch(new UnfavoritePokemon(pokemon));
   }
 }

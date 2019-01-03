@@ -7,7 +7,11 @@ import {
   pokemonLoadingSelector,
   pokemonPageableSelector
 } from '../pokemon.reducer';
-import { LoadPokemons } from '../pokemon.actions';
+import {
+  LoadPokemons,
+  FavoritePokemon,
+  UnfavoritePokemon
+} from '../pokemon.actions';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { PokeApiNamedResource, PokeApiPageable, Pokemon } from '../pokeapi';
 import { withLatestFrom, map, takeWhile, debounceTime } from 'rxjs/operators';
@@ -73,8 +77,16 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
     this.page$.next(page);
   }
 
-  handlePokemonClick(pokemon: PokeApiNamedResource) {
+  handlePokemonClick(pokemon: Pokemon) {
     console.log('Clicked to view details of a pokemon', pokemon);
+  }
+
+  handleSwitchFavoriteClick(pokemon: Pokemon) {
+    if (pokemon.favorite) {
+      this.store$.dispatch(new UnfavoritePokemon(pokemon));
+    } else {
+      this.store$.dispatch(new FavoritePokemon(pokemon));
+    }
   }
 
   private loadPokemons(pageable: PokeApiPageable): void {

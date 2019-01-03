@@ -19,15 +19,16 @@ export interface PokeApiList<T extends PokeApiResource> {
 }
 
 export class Pokemon implements PokeApiNamedResource {
-  constructor(public name: string, public url: string) {}
-
-  get imageSrc() {
-    const [host, path] = this.url.split('/api/v2');
-    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites${path.replace(
-      /\/$/,
-      ''
-    )}.png`;
+  constructor(
+    public name: string,
+    public url: string,
+    public favorite = false
+  ) {
+    const [host, path] = this.url.replace(/\/$/, '').split('/api/v2');
+    this.imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites${path}.png`;
   }
+
+  imageSrc: string;
 }
 
 export interface PokeApiPokemonList extends PokeApiList<PokeApiNamedResource> {}

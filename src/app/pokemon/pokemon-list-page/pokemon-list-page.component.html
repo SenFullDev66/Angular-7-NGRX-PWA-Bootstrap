@@ -14,6 +14,7 @@
     <app-pokemon-list
       [pokemons$]="pokemons$"
       (pokemonClick)="handlePokemonClick($event)"
+      (switchFavoriteClick)="handleSwitchFavoriteClick($event)"
     ></app-pokemon-list>
     <ngb-pagination
       *ngIf="(count$ | async) as count"
