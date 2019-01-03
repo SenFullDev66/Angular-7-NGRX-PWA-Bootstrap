@@ -50,6 +50,13 @@ export function reducer(
         ...state,
         loadingFavorites: true
       };
+    case PokemonActionTypes.FavoritePokemonsLoaded:
+      return {
+        ...state,
+        favoritePokemons: action.favoritePokemons,
+        loadedFavorites: true,
+        loadingFavorites: false
+      };
     default:
       return state;
   }
