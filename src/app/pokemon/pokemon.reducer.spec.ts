@@ -14,6 +14,7 @@ import {
   LoadPokemons,
   PokemonsLoaded,
   LoadFavoritePokemons,
+  FavoritePokemonsLoaded
 } from './pokemon.actions';
 import { Pokemon } from './pokeapi';
 
@@ -86,6 +87,35 @@ describe('Pokemon Reducer', () => {
       it('with "favoritePokemons" array empty', () => {
         expect(result.favoritePokemons).toBeTruthy();
         expect(result.favoritePokemons.length).toBeFalsy();
+      });
+    });
+  });
+  describe(`a "${PokemonActionTypes.FavoritePokemonsLoaded}" action`, () => {
+    describe('with a state with "loadingFavorites" = "true", it reduce to a state', () => {
+      const pokemons: Pokemon[] = [
+        new Pokemon('bulbasaur', 'https://pokeapi.co/api/v2/pokemon/1/'),
+        new Pokemon('ivysaur', 'https://pokeapi.co/api/v2/pokemon/2/'),
+      ];
+      const action = new FavoritePokemonsLoaded(pokemons);
+      let state: PokemonState;
+      let result: PokemonState;
+
+      beforeEach(() => {
+        state = {...initialState, loadingFavorites: true};
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      })
+
+      it('with "loadingFavorites" = "false"', () => {
+        expect(result.loadingFavorites).toBeFalsy();
+      })
+
+      it('with "favoritePokemons" array filled with 2 pokemons', () => {
+        expect(result.favoritePokemons).toBeTruthy();
+        expect(result.favoritePokemons).toBe(pokemons);
       });
     });
   });
