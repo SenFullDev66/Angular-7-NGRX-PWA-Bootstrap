@@ -5,9 +5,12 @@ import {
   PokemonsLoaded,
   LoadPokemons
 } from './pokemon.actions';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 import { PokemonService } from './pokemon.service';
 import { Pokemon } from './pokeapi';
+import { PushMessage } from '../layout/layout.actions';
+import { HttpErrorResponse } from '@angular/common/http';
+import { of } from 'rxjs';
 
 @Injectable()
 export class PokemonEffects {
@@ -26,6 +29,9 @@ export class PokemonEffects {
       ...rest,
       results: results.map(({ name, url }) => new Pokemon(name, url))
     })),
-    map(({ results, count }) => new PokemonsLoaded(results, count))
+    map(({ results, count }) => new PokemonsLoaded(results, count)),
+    catchError((error: HttpErrorResponse) =>
+      of(PushMessage.danger(error.statusText))
+    )
   );
 }

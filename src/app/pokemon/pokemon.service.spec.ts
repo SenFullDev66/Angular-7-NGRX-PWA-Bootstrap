@@ -13,6 +13,7 @@ import {
   Pokemon
 } from './pokeapi';
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('PokemonService', () => {
   let service: PokemonService;
@@ -93,6 +94,26 @@ export interface Stub<Result = any> {
 @Injectable()
 export class PokemonServiceStub {
   constructor(private stub: HttpTestingController) {}
+
+  serviceUnavailable(): Stub<any> {
+    return {
+      result: {},
+      stub: () => {
+        this.stub
+          .match(() => true)[0]
+          .error(
+            new ErrorEvent('Service unavailable', {
+              message: 'Service unavailable'
+            }),
+            {
+              status: 503,
+              statusText: 'Service unavailable'
+            }
+          );
+        this.stub.verify();
+      }
+    };
+  }
 
   findAll(
     pageable: PokeApiPageable = { offset: 0, limit: 10 }

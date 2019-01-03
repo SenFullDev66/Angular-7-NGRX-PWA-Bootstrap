@@ -13,6 +13,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PokemonServiceStub } from './pokemon.service.spec';
 import { PokeApiPageable } from './pokeapi';
 import { pokemonModuleProviders } from './pokemon.module';
+import { LayoutActionTypes, PushMessage } from '../layout/layout.actions';
+import { Severity } from '../layout/layout';
 
 describe('PokemonEffects', () => {
   let actions$: Subject<PokemonActions>;
@@ -39,6 +41,29 @@ describe('PokemonEffects', () => {
   });
 
   describe(`on "${PokemonActionTypes.LoadPokemons}" action`, () => {
+    it(`when the service is unavailable, it effects to "${
+      LayoutActionTypes.PushMessage
+    }" action`, done => {
+      const mock = stub.serviceUnavailable();
+      const action = new LoadPokemons();
+
+      actions$.next(action);
+
+      effects.onLoadPokemons.subscribe((effect: PushMessage) => {
+        try {
+          expect(effect).toBeTruthy();
+          expect(effect.type).toEqual(LayoutActionTypes.PushMessage);
+          expect(effect.message.type).toBe(Severity.DANGER);
+          expect(effect.message.message).toBe('Service unavailable');
+          done();
+        } catch (e) {
+          done.fail(e);
+        }
+      });
+
+      mock.stub();
+    });
+
     it(`without pageable it effects to ${
       PokemonActionTypes.PokemonsLoaded
     } action with pokemons list filled`, done => {
