@@ -96,3 +96,9 @@ export const pokemonFavoritesLoadedSelector = createSelector(
   pokemonSelector,
   state => state.favoritesLoaded
 );
+
+export const pokemonFavoritePokemonsSelector = createSelector(
+  pokemonSelector,
+  (state: PokemonState, { offset, limit }: PokeApiPageable) =>
+    state.favoritePokemons.slice(offset, offset + limit)
+);
