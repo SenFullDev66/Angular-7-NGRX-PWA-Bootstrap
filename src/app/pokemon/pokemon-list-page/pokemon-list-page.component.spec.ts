@@ -82,7 +82,7 @@ describe('PokemonListPageComponent', () => {
     });
   });
 
-  it('the getPageable() observable has offset 0 and limit 10', done => {
+  it('the pageable$ observable has offset 0 and limit 10', done => {
     component.pageable$.pipe(take(1)).subscribe(pageable => {
       try {
         expect(pageable).toBeTruthy();
@@ -156,7 +156,7 @@ describe('PokemonListPageComponent', () => {
         });
       });
 
-      it('the getPageable() observable changes to offset 10 and limit 10', done => {
+      it('the pageable$ observable changes to offset 10 and limit 10', done => {
         component.pageable$.pipe(take(1)).subscribe(pageable => {
           try {
             expect(pageable).toBeTruthy();
