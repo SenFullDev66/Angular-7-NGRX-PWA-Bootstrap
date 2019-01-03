@@ -27,10 +27,7 @@ export function layoutReducer(
     case LayoutActionTypes.PushMessage:
       return {
         ...state,
-        messages: [
-          ...state.messages,
-          { type: action.severity, message: action.message }
-        ]
+        messages: [...state.messages, action.message]
       };
     default:
       return state;

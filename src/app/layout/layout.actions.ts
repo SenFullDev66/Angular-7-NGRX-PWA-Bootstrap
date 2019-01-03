@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Severity } from './layout';
+import { Severity, Message } from './layout';
 
 export enum LayoutActionTypes {
   PushMessage = '[Layout] Push message',
@@ -22,19 +22,19 @@ export class TitleChanged implements Action {
 export class PushMessage implements Action {
   readonly type = LayoutActionTypes.PushMessage;
 
-  constructor(public severity: Severity, public message: string) {}
+  constructor(public message: Message) {}
 
   static info(message: string) {
-    return new PushMessage(Severity.INFO, message);
+    return new PushMessage({ type: Severity.INFO, message });
   }
   static success(message: string) {
-    return new PushMessage(Severity.SUCCESS, message);
+    return new PushMessage({ type: Severity.SUCCESS, message });
   }
   static warning(message: string) {
-    return new PushMessage(Severity.WARNING, message);
+    return new PushMessage({ type: Severity.WARNING, message });
   }
   static danger(message: string) {
-    return new PushMessage(Severity.DANGER, message);
+    return new PushMessage({ type: Severity.DANGER, message });
   }
 }
 
