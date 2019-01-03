@@ -5,7 +5,8 @@ import {
   PokemonsLoaded,
   LoadPokemons,
   FavoritePokemonsLoaded,
-  FavoritePokemon
+  FavoritePokemon,
+  UnfavoritePokemon
 } from './pokemon.actions';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { PokemonService } from './pokemon.service';
@@ -50,6 +51,17 @@ export class PokemonEffects {
     map(({ pokemon }: FavoritePokemon) => {
       this.pokemonService.storeFavorites([pokemon]);
       return PushMessage.success(`Pokemon "${pokemon.name}" favorited`);
+    })
+  );
+
+  @Effect()
+  onUnfavoritePokemon = this.actions$.pipe(
+    ofType(PokemonActionTypes.UnfavoritePokemon),
+    map(({ pokemon }: UnfavoritePokemon) => {
+      this.pokemonService.removeFromFavorites(pokemon);
+      return PushMessage.success(
+        `Pokemon "${pokemon.name}" removed from favorites`
+      );
     })
   );
 }
