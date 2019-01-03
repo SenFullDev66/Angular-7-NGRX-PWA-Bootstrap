@@ -10,4 +10,7 @@
     <span class="navbar-brand">{{ title | async }}</span>
   </div>
 </nav>
-<section><ng-content></ng-content></section>
+<section>
+  <app-message></app-message>
+  <ng-content></ng-content>
+</section>
