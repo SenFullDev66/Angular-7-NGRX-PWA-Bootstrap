@@ -1,9 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { LayoutActionTypes, LayoutActions } from './layout.actions';
+import { Message } from './layout';
 
 export interface LayoutState {
   title: string;
+  messages: Message[];
 }
 
 export interface LayoutFeatureState {
@@ -11,7 +13,8 @@ export interface LayoutFeatureState {
 }
 
 export const initialState: LayoutState = {
-  title: 'E-PokédeX'
+  title: 'E-PokédeX',
+  messages: []
 };
 
 export function layoutReducer(
@@ -20,7 +23,15 @@ export function layoutReducer(
 ): LayoutState {
   switch (action.type) {
     case LayoutActionTypes.ChangeTitle:
-      return { title: action.title };
+      return { ...state, title: action.title };
+    case LayoutActionTypes.PushMessage:
+      return {
+        ...state,
+        messages: [
+          ...state.messages,
+          { type: action.severity, message: action.message }
+        ]
+      };
     default:
       return state;
   }
