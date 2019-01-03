@@ -3,6 +3,7 @@ import { Severity, Message } from './layout';
 
 export enum LayoutActionTypes {
   PushMessage = '[Layout] Push message',
+  CloseMessage = '[Layout] Close message',
   ChangeTitle = '[Layout] Change title',
   TitleChanged = '[Layout] Title changed'
 }
@@ -38,4 +39,10 @@ export class PushMessage implements Action {
   }
 }
 
-export type LayoutActions = ChangeTitle | PushMessage;
+export class CloseMessage implements Action {
+  readonly type = LayoutActionTypes.CloseMessage;
+
+  constructor(public message: Message) {}
+}
+
+export type LayoutActions = ChangeTitle | PushMessage | CloseMessage;
