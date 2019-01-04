@@ -25,7 +25,7 @@ export class PokemonService {
   }
 
   findOne(name: string): Observable<PokemonDetail> {
-    return this.http.get<PokemonDetail>(`/api/v2/pokemon/${name}`);
+    return this.http.get<PokemonDetail>(`/api/v2/pokemon/${name}/`);
   }
 
   restoreFavorites(): Observable<Pokemon[]> {
