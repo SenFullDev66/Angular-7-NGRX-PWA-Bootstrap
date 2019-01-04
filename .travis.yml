@@ -24,7 +24,7 @@ deploy:
   provider: heroku
   api_key: $API_KEY
   on:
-    branch: develop
+    branch: master
   run:
     - docker build -t web .
     - heroku container:login
