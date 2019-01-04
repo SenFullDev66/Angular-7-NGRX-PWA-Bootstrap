@@ -23,8 +23,10 @@ script: ng test --watch false -cc
 deploy:
   provider: heroku
   api_key: $API_KEY
+  on:
+    branch: develop
   run:
     - docker build -t web .
     - heroku container:login
-    - heroku container:push web
-    - heroku container:release web
+    - heroku container:push web --app epokedex
+    - heroku container:release web --app epokedex
