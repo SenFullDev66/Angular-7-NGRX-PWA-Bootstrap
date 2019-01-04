@@ -5,7 +5,8 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html", "/api/**", "/*.css", "/*.js"]
+        "files": ["/favicon.ico", "/index.html"],
+        "versionedFiles": ["/*.css", "/*.js"]
       }
     },
     {
@@ -14,6 +15,17 @@
       "updateMode": "prefetch",
       "resources": {
         "files": ["/assets/**", "/PokeAPI/sprites/**"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": ["/api/**"],
+      "cacheConfig": {
+        "maxSize": 500,
+        "maxAge": "7d",
+        "strategy": "performance"
       }
     }
   ]
