@@ -11,6 +11,7 @@ import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { Pokemon } from '../pokeapi';
 import { map, mergeMap, takeWhile, filter, take } from 'rxjs/operators';
 import { LoadFavoritePokemons, UnfavoritePokemon } from '../pokemon.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-favorite-list-page',
@@ -18,7 +19,10 @@ import { LoadFavoritePokemons, UnfavoritePokemon } from '../pokemon.actions';
   styleUrls: ['./pokemon-favorite-list-page.component.scss']
 })
 export class PokemonFavoriteListPageComponent implements OnInit, OnDestroy {
-  constructor(private store$: Store<PokemonFeatureState>) {}
+  constructor(
+    private store$: Store<PokemonFeatureState>,
+    private router: Router
+  ) {}
 
   mounted = true;
   pokemons$: Observable<Pokemon[]>;
@@ -46,7 +50,6 @@ export class PokemonFavoriteListPageComponent implements OnInit, OnDestroy {
       .pipe(
         takeWhile(() => this.mounted),
         filter(([loaded, loading]) => {
-          console.log('Load favorite pokemons pipe filter', loaded, loading);
           return !loaded && !loading;
         })
       )
@@ -62,7 +65,7 @@ export class PokemonFavoriteListPageComponent implements OnInit, OnDestroy {
   }
 
   handlePokemonClick(pokemon: Pokemon) {
-    console.log('Clicked to view favorite pokemon', pokemon);
+    this.router.navigate(['/pokemon', pokemon.name]);
   }
 
   handleSwitchFavoriteClick(pokemon: Pokemon) {

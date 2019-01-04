@@ -15,6 +15,7 @@ import {
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { PokeApiNamedResource, PokeApiPageable, Pokemon } from '../pokeapi';
 import { withLatestFrom, map, takeWhile, debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-list-page',
@@ -22,7 +23,10 @@ import { withLatestFrom, map, takeWhile, debounceTime } from 'rxjs/operators';
   styleUrls: ['./pokemon-list-page.component.scss']
 })
 export class PokemonListPageComponent implements OnInit, OnDestroy {
-  constructor(private store$: Store<PokemonFeatureState>) {}
+  constructor(
+    private store$: Store<PokemonFeatureState>,
+    private router: Router
+  ) {}
 
   mounted = true;
   loading$: Observable<boolean>;
@@ -78,7 +82,7 @@ export class PokemonListPageComponent implements OnInit, OnDestroy {
   }
 
   handlePokemonClick(pokemon: Pokemon) {
-    console.log('Clicked to view details of a pokemon', pokemon);
+    this.router.navigate(['/pokemon', pokemon.name]);
   }
 
   handleSwitchFavoriteClick(pokemon: Pokemon) {
