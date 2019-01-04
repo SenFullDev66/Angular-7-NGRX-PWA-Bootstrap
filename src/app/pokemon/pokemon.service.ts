@@ -15,7 +15,7 @@ export class PokemonService {
   ): Observable<PokeApiPokemonList> {
     const { offset = 0, limit = 10 } = pageable;
     return this.http.get<PokeApiPokemonList>(
-      `/api/v2/pokemon?offset=${offset}&limit=${limit}`
+      `/api/v2/pokemon/?offset=${offset}&limit=${limit}`
     );
   }
 
