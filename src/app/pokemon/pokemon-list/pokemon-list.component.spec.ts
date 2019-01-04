@@ -117,7 +117,7 @@ describe('PokemonListComponent', () => {
             expect(column).toBeTruthy();
             const image: HTMLImageElement = column.querySelector('img');
             expect(image).toBeTruthy();
-            expect(image.src).toBe(pokemons[0].imageSrc);
+            expect(image.src).toMatch(`${pokemons[0].imageSrc}$`);
           });
 
           it('its second column value is "bulbasaur"', () => {
@@ -160,7 +160,7 @@ describe('PokemonListComponent', () => {
             expect(column).toBeTruthy();
             const image: HTMLImageElement = column.querySelector('img');
             expect(image).toBeTruthy();
-            expect(image.src).toBe(pokemons[1].imageSrc);
+            expect(image.src).toMatch(`${pokemons[1].imageSrc}$`);
           });
 
           it('its second column value is "ivysaur"', () => {
