@@ -7,14 +7,23 @@ import {
   pokemonListSelector,
   pokemonCountSelector,
   pokemonLoadingSelector,
-  pokemonPageableSelector
+  pokemonPageableSelector,
+  pokemonLoadingFavoritesSelector,
+  pokemonFavoritesLoadedSelector,
+  pokemonFavoritePokemonsSelector,
+  pokemonFavoriteCountSelector
 } from './pokemon.reducer';
 import {
   PokemonActionTypes,
   LoadPokemons,
-  PokemonsLoaded
+  PokemonsLoaded,
+  LoadFavoritePokemons,
+  FavoritePokemonsLoaded,
+  FavoritePokemon,
+  UnfavoritePokemon
 } from './pokemon.actions';
-import { PokeApiNamedResource, Pokemon } from './pokeapi';
+import { Pokemon, PokeApiPageable } from './pokeapi';
+import { POKEMONS_MOCK } from './pokemon.service.spec';
 
 describe('Pokemon Reducer', () => {
   describe('an unknown action', () => {
@@ -60,6 +69,169 @@ describe('Pokemon Reducer', () => {
     it('to a state with pokemons array filled', () => {
       expect(result).toBeTruthy();
       expect(result.pokemons).toEqual(pokemons);
+    });
+  });
+
+  describe(`a "${PokemonActionTypes.LoadFavoritePokemons}" action`, () => {
+    describe('with initial state, it reduce to a state', () => {
+      const action = new LoadFavoritePokemons();
+      let state: PokemonState;
+      let result: PokemonState;
+
+      beforeEach(() => {
+        state = initialState;
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      });
+
+      it('with "favoritesLoaded" = "false"', () => {
+        expect(result.favoritesLoaded).toBeFalsy();
+      });
+
+      it('with "loadingFavorites" = "true"', () => {
+        expect(result.loadingFavorites).toBeTruthy();
+      });
+
+      it('with "favoritePokemons" array empty', () => {
+        expect(result.favoritePokemons).toBeTruthy();
+        expect(result.favoritePokemons.length).toBeFalsy();
+      });
+    });
+  });
+  describe(`a "${PokemonActionTypes.FavoritePokemonsLoaded}" action`, () => {
+    describe('with a state with "loadingFavorites" = "true", it reduce to a state', () => {
+      const pokemons: Pokemon[] = [
+        new Pokemon('bulbasaur', 'https://pokeapi.co/api/v2/pokemon/1/'),
+        new Pokemon('ivysaur', 'https://pokeapi.co/api/v2/pokemon/2/')
+      ];
+      const action = new FavoritePokemonsLoaded(pokemons);
+      let state: PokemonState;
+      let result: PokemonState;
+
+      beforeEach(() => {
+        state = { ...initialState, loadingFavorites: true };
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      });
+
+      it('with "favoritesLoaded" = "true"', () => {
+        expect(result.favoritesLoaded).toBeTruthy();
+      });
+
+      it('with "loadingFavorites" = "false"', () => {
+        expect(result.loadingFavorites).toBeFalsy();
+      });
+
+      it('with "favoritePokemons" array filled with 2 pokemons', () => {
+        expect(result.favoritePokemons).toBeTruthy();
+        expect(result.favoritePokemons).toBe(pokemons);
+      });
+    });
+  });
+
+  describe(`a "${PokemonActionTypes.FavoritePokemon}" action`, () => {
+    describe('with initial state, it reduces to a state', () => {
+      let pokemon: Pokemon;
+      let state: PokemonState;
+      let result: PokemonState;
+      beforeEach(() => {
+        state = initialState;
+        pokemon = new Pokemon(
+          'bulbasaur',
+          'https://pokeapi.co/api/v2/pokemon/1/'
+        );
+        const action = new FavoritePokemon(pokemon);
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      });
+
+      it('with "favoritePokemons" with one pokemon', () => {
+        expect(result.favoritePokemons.length).toBe(1);
+      });
+
+      it('with a pokemon named "bulbasaur" as favorite', () => {
+        expect(result.favoritePokemons[0].name).toBe('bulbasaur');
+      });
+    });
+
+    describe('with a state with two favorite pokemons, it reduces to a state', () => {
+      let pokemons: Pokemon[];
+      let pokemon: Pokemon;
+      let state: PokemonState;
+      let result: PokemonState;
+      beforeEach(() => {
+        pokemons = POKEMONS_MOCK.slice(0, 2);
+        state = { ...initialState, favoritePokemons: pokemons };
+        pokemon = new Pokemon(
+          'venusaur',
+          'http://pokeapi.salestock.net/api/v2/pokemon/3/'
+        );
+        const action = new FavoritePokemon(pokemon);
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      });
+
+      it('with "favoritePokemons" with three pokemons', () => {
+        expect(result.favoritePokemons.length).toBe(3);
+      });
+
+      it('with a pokemon named "venusaur" as favorite', () => {
+        expect(result.favoritePokemons[0].name).toBe('venusaur');
+      });
+    });
+  });
+
+  describe(`a "${PokemonActionTypes.UnfavoritePokemon}" action`, () => {
+    describe('with a state with two favorite pokemons, it reduce to a state', () => {
+      let state: PokemonState;
+      let action: UnfavoritePokemon;
+      let result: PokemonState;
+      beforeEach(() => {
+        state = {
+          ...initialState,
+          favoritePokemons: [
+            new Pokemon(
+              'bulbasaur',
+              'http://pokeapi.salestock.net/api/v2/pokemon/1/'
+            ),
+            new Pokemon(
+              'ivysaur',
+              'http://pokeapi.salestock.net/api/v2/pokemon/2/'
+            )
+          ]
+        };
+        action = new UnfavoritePokemon(
+          new Pokemon(
+            'bulbasaur',
+            'http://pokeapi.salestock.net/api/v2/pokemon/1/'
+          )
+        );
+        result = reducer(state, action);
+      });
+
+      it('different from previous state', () => {
+        expect(result).not.toBe(state);
+      });
+
+      it('with "favoritePokemons" array with length 1', () => {
+        expect(result.favoritePokemons.length).toBe(1);
+      });
+
+      it('with the first favorite pokemon named "ivysaur"', () => {
+        expect(result.favoritePokemons[0].name).toBe('ivysaur');
+      });
     });
   });
 });
@@ -173,5 +345,99 @@ describe('pokemonPageableSelector', () => {
     };
     const result = pokemonPageableSelector(rootState);
     expect(result).toEqual(pageable);
+  });
+});
+
+describe('pokemonLoadingFavoritesSelector', () => {
+  it('with initial state, it selects "false"', () => {
+    const pokemonState = initialState;
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonLoadingFavoritesSelector(rootState);
+    expect(result).toBe(false);
+  });
+
+  it('with state with "loadingFavorites" = "true", it selects "true"', () => {
+    const pokemonState = { ...initialState, loadingFavorites: true };
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonLoadingFavoritesSelector(rootState);
+    expect(result).toBe(true);
+  });
+});
+
+describe('pokemonFavoritesLoadedSelector', () => {
+  it('with initial state, it selects "false"', () => {
+    const pokemonState = initialState;
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoritesLoadedSelector(rootState);
+    expect(result).toBe(false);
+  });
+
+  it('with state with "favoritesLoaded" = "true", it selects "true"', () => {
+    const pokemonState = { ...initialState, favoritesLoaded: true };
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoritesLoadedSelector(rootState);
+    expect(result).toBe(true);
+  });
+});
+
+describe('pokemonFavoritePokemonsSelector', () => {
+  it('with initial state when provided a pageable with offset 0 and limit 10, it selects a empty array', () => {
+    const pageable: PokeApiPageable = { offset: 0, limit: 10 };
+    const pokemonState = initialState;
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoritePokemonsSelector(rootState, pageable);
+    expect(result).toBeTruthy();
+    expect(result.length).toBe(0);
+  });
+
+  describe('with a state with 50 favorites pokemons loaded', () => {
+    it('when provided a pageable with offset 0 and limit 10, it selects 10 pokemons starting from "bulbasaur" to "caterpie"', () => {
+      const pageable: PokeApiPageable = { offset: 0, limit: 10 };
+      const pokemonState = { ...initialState, favoritePokemons: POKEMONS_MOCK };
+      const rootState = { pokemon: pokemonState };
+      const result = pokemonFavoritePokemonsSelector(rootState, pageable);
+      expect(result).toBeTruthy();
+      expect(result.length).toBe(10);
+      expect(result[0].name).toBe('bulbasaur');
+      expect(result[9].name).toBe('caterpie');
+    });
+
+    it('when provided a pageable with offset 10 and limit 10, it selects 10 pokemons starting from "metapod" to "raticate"', () => {
+      const pageable: PokeApiPageable = { offset: 10, limit: 10 };
+      const pokemonState = { ...initialState, favoritePokemons: POKEMONS_MOCK };
+      const rootState = { pokemon: pokemonState };
+      const result = pokemonFavoritePokemonsSelector(rootState, pageable);
+      expect(result).toBeTruthy();
+      expect(result.length).toBe(10);
+      expect(result[0].name).toBe('metapod');
+      expect(result[9].name).toBe('raticate');
+    });
+
+    it('when provided a pageable with offset 0 and limit 20, it selects 20 pokemons starting from "bulbasaur" to "raticate"', () => {
+      const pageable: PokeApiPageable = { offset: 0, limit: 20 };
+      const pokemonState = { ...initialState, favoritePokemons: POKEMONS_MOCK };
+      const rootState = { pokemon: pokemonState };
+      const result = pokemonFavoritePokemonsSelector(rootState, pageable);
+      expect(result).toBeTruthy();
+      expect(result.length).toBe(20);
+      expect(result[0].name).toBe('bulbasaur');
+      expect(result[19].name).toBe('raticate');
+    });
+  });
+});
+
+describe('pokemonFavoriteCountSelector', () => {
+  it('with initial state it selects zero', () => {
+    const pokemonState = initialState;
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoriteCountSelector(rootState);
+    expect(result).toBe(0);
+  });
+
+  it('with a state with 50 favorite pokemons, it selects 50', () => {
+    const pokemonState = { ...initialState, favoritePokemons: POKEMONS_MOCK };
+    const rootState = { pokemon: pokemonState };
+    const result = pokemonFavoriteCountSelector(rootState);
+    expect(result).toBe(50);
   });
 });

@@ -16,9 +16,16 @@ export class PokemonListComponent implements OnInit {
   @Output()
   pokemonClick = new EventEmitter<Pokemon>();
 
+  @Output()
+  switchFavoriteClick = new EventEmitter<Pokemon>();
+
   ngOnInit() {}
 
   handlePokemonClick(pokemon: Pokemon) {
     this.pokemonClick.emit(pokemon);
+  }
+
+  handleSwitchFavoriteClick(pokemon: Pokemon) {
+    this.switchFavoriteClick.emit(pokemon);
   }
 }

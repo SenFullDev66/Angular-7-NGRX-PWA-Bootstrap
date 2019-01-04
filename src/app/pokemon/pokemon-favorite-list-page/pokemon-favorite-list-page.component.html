@@ -1,8 +1,6 @@
-<app-page title="Pokemons list">
-  <p>
-    <a class="btn btn-primary" routerLink="/favorites">Show only favorites</a>
-  </p>
-  <div *ngIf="!(loading$ | async); else loading">
+<app-page title="Favorite pokemons">
+  <p><a class="btn btn-primary" routerLink="/">Show all pokemons</a></p>
+  <div *ngIf="!(loading$ | async) && (loaded$ | async); else loading">
     <ngb-pagination
       *ngIf="(count$ | async) as count"
       [collectionSize]="count"

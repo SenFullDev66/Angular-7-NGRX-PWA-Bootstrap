@@ -21,6 +21,15 @@
           >
             View
           </button>
+          <button
+            type="button"
+            class="btn btn-sm {{
+              pokemon.favorite ? 'btn-danger' : 'btn-success'
+            }}"
+            (click)="handleSwitchFavoriteClick(pokemon)"
+          >
+            {{ pokemon.favorite ? 'Unfavorite' : 'Favorite' }}
+          </button>
         </td>
       </tr>
       <tr *ngIf="!pokemons.length" data-index="0">

@@ -1,12 +1,16 @@
-import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { PokemonActionTypes, PokemonActions } from './pokemon.actions';
-import { PokeApiNamedResource, PokeApiPageable, Pokemon } from './pokeapi';
+import { PokeApiPageable, Pokemon } from './pokeapi';
 
 export interface PokemonState {
   loading: boolean;
   pageable: PokeApiPageable;
   pokemons: Pokemon[];
   count: number;
+
+  favoritesLoaded: boolean;
+  loadingFavorites: boolean;
+  favoritePokemons: Pokemon[];
 }
 
 export interface PokemonFeatureState {
@@ -20,7 +24,11 @@ export const initialState: PokemonState = {
     limit: 10
   },
   pokemons: [],
-  count: 0
+  count: 0,
+
+  favoritesLoaded: false,
+  loadingFavorites: false,
+  favoritePokemons: []
 };
 
 export function reducer(
@@ -28,6 +36,18 @@ export function reducer(
   action: PokemonActions
 ): PokemonState {
   switch (action.type) {
+    case PokemonActionTypes.FavoritePokemon:
+      return {
+        ...state,
+        favoritePokemons: [action.pokemon, ...state.favoritePokemons]
+      };
+    case PokemonActionTypes.UnfavoritePokemon:
+      return {
+        ...state,
+        favoritePokemons: state.favoritePokemons.filter(
+          pokemon => pokemon.url !== action.pokemon.url
+        )
+      };
     case PokemonActionTypes.LoadPokemons:
       return { ...state, pageable: { ...action.pageable }, loading: true };
     case PokemonActionTypes.PokemonsLoaded:
@@ -36,6 +56,18 @@ export function reducer(
         loading: false,
         pokemons: action.pokemons,
         count: action.count
+      };
+    case PokemonActionTypes.LoadFavoritePokemons:
+      return {
+        ...state,
+        loadingFavorites: true
+      };
+    case PokemonActionTypes.FavoritePokemonsLoaded:
+      return {
+        ...state,
+        favoritePokemons: action.favoritePokemons,
+        favoritesLoaded: true,
+        loadingFavorites: false
       };
     default:
       return state;
@@ -54,7 +86,15 @@ export const pokemonLoadingSelector = createSelector(
 
 export const pokemonListSelector = createSelector(
   pokemonSelector,
-  state => state.pokemons
+  ({ pokemons, favoritePokemons }) =>
+    pokemons.map(
+      ({ name, url }) =>
+        new Pokemon(
+          name,
+          url,
+          !!favoritePokemons.find(({ url: favUrl }) => favUrl === url)
+        )
+    )
 );
 
 export const pokemonCountSelector = createSelector(
@@ -65,4 +105,27 @@ export const pokemonCountSelector = createSelector(
 export const pokemonPageableSelector = createSelector(
   pokemonSelector,
   state => state.pageable
+);
+
+export const pokemonLoadingFavoritesSelector = createSelector(
+  pokemonSelector,
+  state => state.loadingFavorites
+);
+
+export const pokemonFavoritesLoadedSelector = createSelector(
+  pokemonSelector,
+  state => state.favoritesLoaded
+);
+
+export const pokemonFavoritePokemonsSelector = createSelector(
+  pokemonSelector,
+  (state, { offset, limit }: PokeApiPageable) =>
+    state.favoritePokemons
+      .slice(offset, offset + limit)
+      .map(({ name, url }) => new Pokemon(name, url, true))
+);
+
+export const pokemonFavoriteCountSelector = createSelector(
+  pokemonSelector,
+  state => state.favoritePokemons.length
 );

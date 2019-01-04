@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PokeApiPokemonList, PokeApiPageable } from './pokeapi';
-import { Observable } from 'rxjs';
+import { PokeApiPokemonList, PokeApiPageable, Pokemon } from './pokeapi';
+import { Observable, of } from 'rxjs';
+import { map, take, filter } from 'rxjs/operators';
 
 @Injectable()
 export class PokemonService {
   constructor(private http: HttpClient) {}
+
+  static FAVORITE_POKEMONS_KEY = 'ng.app.epokedex.favoritePokemons';
 
   findAll(
     pageable: PokeApiPageable = { offset: 0, limit: 10 }
@@ -14,5 +17,38 @@ export class PokemonService {
     return this.http.get<PokeApiPokemonList>(
       `/api/v2/pokemon?offset=${offset}&limit=${limit}`
     );
+  }
+
+  restoreFavorites(): Observable<Pokemon[]> {
+    return of(
+      window.localStorage.getItem(PokemonService.FAVORITE_POKEMONS_KEY)
+    ).pipe(map(str => (str ? JSON.parse(str) : [])));
+  }
+
+  storeFavorites(pokemons: Pokemon[]) {
+    this.restoreFavorites()
+      .pipe(take(1))
+      .subscribe(favoritePokemons => {
+        window.localStorage.setItem(
+          PokemonService.FAVORITE_POKEMONS_KEY,
+          JSON.stringify([...pokemons, ...favoritePokemons])
+        );
+      });
+  }
+
+  removeFromFavorites(pokemon: Pokemon) {
+    this.restoreFavorites()
+      .pipe(
+        take(1),
+        filter(favoritePokemons => !!favoritePokemons.length)
+      )
+      .subscribe(favoritePokemons => {
+        window.localStorage.setItem(
+          PokemonService.FAVORITE_POKEMONS_KEY,
+          JSON.stringify(
+            favoritePokemons.filter(favorite => favorite.url !== pokemon.url)
+          )
+        );
+      });
   }
 }
