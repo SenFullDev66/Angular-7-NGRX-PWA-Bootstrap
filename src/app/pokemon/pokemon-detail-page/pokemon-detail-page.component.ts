@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonService } from '../pokemon.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { PokemonDetail } from '../pokeapi';
 import { switchMap, take, map } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { switchMap, take, map } from 'rxjs/operators';
 export class PokemonDetailPageComponent implements OnInit {
   constructor(
     private pokemonService: PokemonService,
+    private router: Router,
     private route: ActivatedRoute
   ) {}
 
@@ -31,5 +32,9 @@ export class PokemonDetailPageComponent implements OnInit {
         this.pokemon = pokemon;
         this.title$.next(`Details of ${pokemon.name}`);
       });
+  }
+
+  back() {
+    this.router.navigate(['/']);
   }
 }
