@@ -14,7 +14,8 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/assets/**", "/PokeAPI/sprites/**"]
+        "files": ["/assets/**"],
+        "urls": ["https://raw.githubusercontent.com/PokeAPI/**"]
       }
     }
   ],

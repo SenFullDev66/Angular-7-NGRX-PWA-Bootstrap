@@ -2,15 +2,5 @@
   "/api": {
     "target": "http://pokeapi.salestock.net",
     "secure": false
-  },
-  "/PokeAPI/sprites": {
-    "target": {
-      "host": "raw.githubusercontent.com",
-      "protocol": "https:",
-      "port": 443
-    },
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "info"
   }
 }
