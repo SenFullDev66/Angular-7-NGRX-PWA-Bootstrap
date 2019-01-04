@@ -6,10 +6,12 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { PokemonModule } from './pokemon.module';
 import { CommonModule } from '@angular/common';
 import { PokemonFavoriteListPageComponent } from './pokemon-favorite-list-page/pokemon-favorite-list-page.component';
+import { PokemonDetailPageComponent } from './pokemon-detail-page/pokemon-detail-page.component';
 
 const routes: Routes = [
   { path: '', component: PokemonListPageComponent },
-  { path: 'favorites', component: PokemonFavoriteListPageComponent }
+  { path: 'favorites', component: PokemonFavoriteListPageComponent },
+  { path: 'pokemon/:name', component: PokemonDetailPageComponent }
 ];
 
 @NgModule({
@@ -21,6 +23,10 @@ const routes: Routes = [
     PokemonModule
   ],
   exports: [RouterModule],
-  declarations: [PokemonListPageComponent, PokemonFavoriteListPageComponent]
+  declarations: [
+    PokemonListPageComponent,
+    PokemonFavoriteListPageComponent,
+    PokemonDetailPageComponent
+  ]
 })
 export class PokemonRoutingModule {}

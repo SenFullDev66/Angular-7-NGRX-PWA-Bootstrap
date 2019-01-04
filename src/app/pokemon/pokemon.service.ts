@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PokeApiPokemonList, PokeApiPageable, Pokemon } from './pokeapi';
+import {
+  PokeApiPokemonList,
+  PokeApiPageable,
+  Pokemon,
+  PokemonDetail
+} from './pokeapi';
 import { Observable, of } from 'rxjs';
 import { map, take, filter } from 'rxjs/operators';
 
@@ -17,6 +22,10 @@ export class PokemonService {
     return this.http.get<PokeApiPokemonList>(
       `/api/v2/pokemon?offset=${offset}&limit=${limit}`
     );
+  }
+
+  findOne(name: string): Observable<PokemonDetail> {
+    return this.http.get<PokemonDetail>(`/api/v2/pokemon/${name}`);
   }
 
   restoreFavorites(): Observable<Pokemon[]> {

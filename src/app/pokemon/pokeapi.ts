@@ -31,4 +31,42 @@ export class Pokemon implements PokeApiNamedResource {
   imageSrc: string;
 }
 
+export interface PokemonStat {
+  base_stat: number;
+  effort: number;
+  stat: PokeApiNamedResource;
+}
+
+export interface PokemonAbility {
+  slot: number;
+  is_hidden: boolean;
+  ability: PokeApiNamedResource;
+}
+
+export interface PokemonType {
+  slot: number;
+  type: PokeApiNamedResource;
+}
+
+export interface PokemonSprites {
+  back_default: string;
+  back_shiny: string;
+  back_female: string;
+  back_shiny_female: string;
+  front_female: string;
+  front_shiny_female: string;
+  front_default: string;
+  front_shiny: string;
+}
+
+export interface PokemonDetail extends PokeApiNamedResource {
+  id: number;
+  weight: number;
+  height: number;
+  stats: PokemonStat[];
+  abilities: PokemonAbility[];
+  types: PokemonType[];
+  sprites: PokemonSprites;
+}
+
 export interface PokeApiPokemonList extends PokeApiList<PokeApiNamedResource> {}
