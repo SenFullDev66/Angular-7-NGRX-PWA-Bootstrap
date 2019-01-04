@@ -3,17 +3,30 @@
     <h2 class="text-capitalize">{{ pokemon.name }}</h2>
     <div class="row">
       <div class="col-12">
-        <img [src]="pokemon.sprites.front_default" alt="Front default image" />
-        <img [src]="pokemon.sprites.front_default" alt="Front shiny image" />
-        <img [src]="pokemon.sprites.front_female" alt="Front female image" />
         <img
+          *ngIf="!!pokemon.sprites.front_default"
+          [src]="pokemon.sprites.front_default"
+          alt="Front default image"
+        />
+        <img
+          *ngIf="!!pokemon.sprites.front_default"
+          [src]="pokemon.sprites.front_default"
+          alt="Front shiny image"
+        />
+        <img
+          *ngIf="!!pokemon.sprites.front_female"
+          [src]="pokemon.sprites.front_female"
+          alt="Front female image"
+        />
+        <img
+          *ngIf="!!pokemon.sprites.front_shiny_female"
           [src]="pokemon.sprites.front_shiny_female"
           alt="Front shiny female image"
         />
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 py-3">
         <h4>Stats</h4>
         <ul class="list-group">
           <li
@@ -27,7 +40,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 py-3">
         <h4>Abilities</h4>
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let ability of pokemon.abilities">
@@ -38,7 +51,7 @@
           <li *ngIf="!pokemon.abilities.length">None</li>
         </ul>
       </div>
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 py-3">
         <h4>Types</h4>
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let type of pokemon.types">
