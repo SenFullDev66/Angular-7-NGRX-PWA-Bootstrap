@@ -25,7 +25,7 @@ export class Pokemon implements PokeApiNamedResource {
     public favorite = false
   ) {
     const [host, path] = this.url.replace(/\/$/, '').split('/api/v2');
-    this.imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites${path}.png`;
+    this.imageSrc = `/PokeAPI/sprites/master/sprites${path}.png`;
   }
 
   imageSrc: string;
