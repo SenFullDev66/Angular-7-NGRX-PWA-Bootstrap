@@ -1,4 +1,7 @@
 <app-page title="Pokemons list">
+  <p>
+    <a class="btn btn-primary" routerLink="/favorites">Show only favorites</a>
+  </p>
   <div *ngIf="!(loading$ | async); else loading">
     <ngb-pagination
       *ngIf="(count$ | async) as count"
