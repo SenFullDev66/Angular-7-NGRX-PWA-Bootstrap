@@ -15,5 +15,16 @@ before_script:
   - sudo dpkg -i google-chrome*.deb
   - npm i -g @angular/cli
 
+services:
+  - docker
+
 script: ng test --watch false -cc
 #script: "npm test && cat ./coverage/lcov.info | ./packages/react-formctrl/node_modules/coveralls/bin/coveralls.js"
+deploy:
+  provider: heroku
+  api_key: $API_KEY
+  run:
+    - docker build -t web .
+    - heroku container:login
+    - heroku container:push web
+    - heroku container:release web
